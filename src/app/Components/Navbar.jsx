@@ -139,23 +139,32 @@ const Navbar = () => {
         <div className="navbar-end gap-3">
           {/* Login/Register Design */}
           <div className="hidden items-center gap-2 md:flex">
-            <Button
-              as={Link}
-              href="/login"
-              variant="light"
-              className="font-bold text-slate-700"
-            >
-              Login
+
+
+            <Button className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg shadow-primary/30 hover:shadow-xl">
+              <Link
+                href="/Login"
+                className="font-bold text-white"
+              >
+                Login
+              </Link>
+
             </Button>
 
-            <Button
-              as={Link}
-              href="/register"
-              color="primary"
-              className="font-bold text-white shadow-lg shadow-primary/30"
-            >
-              Register
+
+
+            <Button className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg shadow-primary/30 hover:shadow-xl">
+              <Link
+                href="/Registration"
+                className="font-bold text-white shadow-lg shadow-primary/30"
+              >
+                Registration
+              </Link>
             </Button>
+
+
+
+
           </div>
 
           {/* User Profile Dropdown Design */}
@@ -166,13 +175,13 @@ const Navbar = () => {
               className="flex items-center gap-2 rounded-full border border-slate-200 bg-white px-2 py-1 shadow-md transition hover:shadow-lg"
             >
 
-<Image
-  src="https://i.pravatar.cc/150?img=32"
-  alt="User"
-  width={36}
-  height={36}
-  className="rounded-full border-2 border-indigo-500 object-cover"
-/>
+              <Image
+                src="https://i.pravatar.cc/150?img=32"
+                alt="User"
+                width={36}
+                height={36}
+                className="rounded-full border-2 border-indigo-500 object-cover"
+              />
 
               <span className="hidden pr-2 text-sm font-bold text-slate-700 md:block">
                 RD Plus
