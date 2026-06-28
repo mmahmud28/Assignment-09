@@ -8,7 +8,7 @@ import Image from "next/image";
 
 const Navbar = () => {
   return (
-    <header className="sticky top-0 z-50 border-b  shadow-sm">
+    <header className="sticky top-0 z-50 border-b bg-white shadow-sm">
       <nav className="navbar mx-auto max-w-7xl px-4 py-3">
         {/* Left Logo */}
         <div className="navbar-start">
