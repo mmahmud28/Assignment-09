@@ -1,5 +1,6 @@
 "use client"
 import React, { useEffect, useState } from "react";
+import TutorCard from "../Components/TutorCard";
 
 const TutorShow = () => {
   const [tutors, setTutors] = useState([]);
@@ -17,6 +18,7 @@ const TutorShow = () => {
         setLoading(false);
       });
   }, []);
+  
 
   return (
     <section className="py-20 px-5 md:px-10 lg:px-16 bg-gray-50">
@@ -45,7 +47,7 @@ const TutorShow = () => {
               <TutorCard
                 key={tutor._id}
                 tutor={tutor}
-              />
+              />            
             ))}
           </div>
         )}
