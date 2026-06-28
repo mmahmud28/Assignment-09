@@ -7,7 +7,7 @@ const TutorShow = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:5000/trutors")
+    fetch("http://localhost:5000/tutors")
       .then((res) => res.json())
       .then((data) => {
         setTutors(data.slice(0, 6)); // প্রথম ৬টি ডাটা

@@ -59,7 +59,7 @@ const TutorCard = ({ tutor }) => {
                             Location
                         </span>
 
-                        <span className="font-semibold">
+                        <span className="font-semibold text-black">
                             {location}
                         </span>
                     </div>
@@ -70,7 +70,7 @@ const TutorCard = ({ tutor }) => {
                             Days
                         </span>
 
-                        <span className="font-semibold">
+                        <span className="font-semibold text-black">
                             {availableDays}
                         </span>
                     </div>
@@ -81,7 +81,7 @@ const TutorCard = ({ tutor }) => {
                             Time
                         </span>
 
-                        <span className="font-semibold">
+                        <span className="font-semibold text-black">
                             {availableTime}
                         </span>
                     </div>
