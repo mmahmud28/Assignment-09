@@ -8,7 +8,7 @@ import Image from "next/image";
 
 const Navbar = () => {
   return (
-    <header className="sticky top-0 z-50 border-b border-white/20 bg-white/80 shadow-sm backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b  shadow-sm">
       <nav className="navbar mx-auto max-w-7xl px-4 py-3">
         {/* Left Logo */}
         <div className="navbar-start">
@@ -190,30 +190,51 @@ const Navbar = () => {
 
             <ul
               tabIndex={0}
-              className="menu dropdown-content z-[100] mt-4 w-64 rounded-3xl bg-white p-4 shadow-2xl"
+              className="dropdown-content z-[9999] mt-4 w-72 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl"
             >
-              <div className="mb-3 rounded-2xl bg-gradient-to-r from-indigo-50 to-pink-50 p-4">
-                <p className="font-bold text-slate-800">RD Plus</p>
-                <p className="text-xs text-slate-500">student@gmail.com</p>
+              {/* Top Header */}
+              <div className="relative overflow-hidden bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 p-6">
+                {/* Decorative Circles */}
+                <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-white/10"></div>
+                <div className="absolute -bottom-10 -left-10 h-28 w-28 rounded-full bg-white/10"></div>
+
+                <div className="relative">
+                  <p className="text-lg font-bold text-white">RD Plus</p>
+                  <p className="text-sm text-indigo-100">student@gmail.com</p>
+                </div>
               </div>
 
-              <li>
-                <Link href="/profile" className="font-semibold">
-                  Profile Page
-                </Link>
-              </li>
+              {/* Menu */}
+              <div className="p-3">
+                <li>
+                  <Link
+                    href="/profile"
+                    className="flex items-center rounded-2xl px-4 py-3 text-[15px] font-semibold text-slate-700 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600"
+                  >
+                    👤
+                    <span className="ml-3">Profile Page</span>
+                  </Link>
+                </li>
 
-              <li>
-                <Link href="/my-booked-sessions" className="font-semibold">
-                  My Booked Sessions
-                </Link>
-              </li>
+                <li className="mt-1">
+                  <Link
+                    href="/my-booked-sessions"
+                    className="flex items-center rounded-2xl px-4 py-3 text-[15px] font-semibold text-slate-700 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600"
+                  >
+                    📚
+                    <span className="ml-3">My Booked Sessions</span>
+                  </Link>
+                </li>
 
-              <div className="divider my-2" />
+                <div className="my-3 border-t border-slate-200"></div>
 
-              <li>
-                <button className="font-bold text-red-500">Logout</button>
-              </li>
+                <li>
+                  <button className="flex w-full items-center rounded-2xl px-4 py-3 font-bold text-red-500 transition-all duration-300 hover:bg-red-50">
+                    🚪
+                    <span className="ml-3">Logout</span>
+                  </button>
+                </li>
+              </div>
             </ul>
           </div>
         </div>
