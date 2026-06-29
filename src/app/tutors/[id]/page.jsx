@@ -1,7 +1,21 @@
+import Image from "next/image";
 import React from "react";
-import Link from "next/link";
 
-const TutorDetailsPage = () => {
+
+
+const TutorDetailsPage = async ({ params }) => {
+  const { id } = await params;
+
+  const res = await fetch(`http://localhost:5000/tutors/${id}`, {
+    cache: "no-store",
+  });
+
+  console.log(res.status);
+  console.log(res.headers.get("content-type"));
+
+  const tutor = await res.json();
+
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-slate-50 via-indigo-50/40 to-white px-4 py-12">
       {/* Background Decoration */}
@@ -29,30 +43,31 @@ const TutorDetailsPage = () => {
           {/* Tutor Profile Card */}
           <div className="lg:col-span-1">
             <div className="rounded-[2rem] border border-white bg-white p-6 shadow-2xl">
-              <div className="relative overflow-hidden rounded-[1.5rem]">
-                <img
-                  src="https://images.unsplash.com/photo-1544717297-fa95b6ee9643?q=80&w=800&auto=format&fit=crop"
-                  alt="Tutor"
-                  className="h-80 w-full object-cover"
+
+              <div className="relative h-80 w-full overflow-hidden rounded-[1.5rem]">
+                <Image
+                  src={tutor.photo}
+                  alt={tutor.tutorName}
+                  fill
+                  className="object-cover"
                 />
 
-                <div className="absolute left-4 top-4 rounded-full bg-green-500 px-4 py-2 text-xs font-black text-white shadow-lg">
+                <div className="absolute left-4 top-4 z-10 rounded-full bg-green-500 px-4 py-2 text-xs font-black text-white shadow-lg">
                   Available
                 </div>
               </div>
 
               <div className="mt-6">
                 <h2 className="text-3xl font-black text-slate-900">
-                  Mr. Rahim Ahmed
+                  {tutor.tutorName}
                 </h2>
 
                 <p className="mt-2 text-sm font-bold text-indigo-600">
-                  Mathematics Tutor
+                  {tutor.subject}
                 </p>
 
                 <p className="mt-4 leading-7 text-slate-500">
-                  Experienced mathematics tutor with strong academic background
-                  and 5 years of teaching experience.
+                  {tutor.institutionExperience}
                 </p>
               </div>
 
@@ -62,7 +77,7 @@ const TutorDetailsPage = () => {
                     Hourly Fee
                   </p>
                   <h3 className="mt-1 text-2xl font-black text-indigo-600">
-                    ৳500
+                    ৳{tutor.hourlyFee}
                   </h3>
                 </div>
 
@@ -71,7 +86,7 @@ const TutorDetailsPage = () => {
                     Total Slot
                   </p>
                   <h3 className="mt-1 text-2xl font-black text-purple-600">
-                    08
+                    {tutor.totalSlot}
                   </h3>
                 </div>
               </div>
@@ -145,7 +160,7 @@ const TutorDetailsPage = () => {
                       Tutor ID
                     </p>
                     <h4 className="mt-1 font-black text-slate-900">
-                      TUTOR-1025
+                      {tutor._id}
                     </h4>
                   </div>
 
@@ -154,7 +169,7 @@ const TutorDetailsPage = () => {
                       Subject / Category
                     </p>
                     <h4 className="mt-1 font-black text-slate-900">
-                      Mathematics
+                      {tutor.subject}
                     </h4>
                   </div>
 
@@ -163,7 +178,7 @@ const TutorDetailsPage = () => {
                       Available Days
                     </p>
                     <h4 className="mt-1 font-black text-slate-900">
-                      Sun - Thu
+                      {tutor.availableDays}
                     </h4>
                   </div>
 
@@ -172,7 +187,7 @@ const TutorDetailsPage = () => {
                       Time Slot
                     </p>
                     <h4 className="mt-1 font-black text-slate-900">
-                      5:00 PM - 8:00 PM
+                      {tutor.availableTime}
                     </h4>
                   </div>
 
@@ -181,7 +196,7 @@ const TutorDetailsPage = () => {
                       Teaching Mode
                     </p>
                     <h4 className="mt-1 font-black text-slate-900">
-                      Online & Offline
+                      {tutor.teachingMode}
                     </h4>
                   </div>
 
@@ -190,7 +205,7 @@ const TutorDetailsPage = () => {
                       Location
                     </p>
                     <h4 className="mt-1 font-black text-slate-900">
-                      Dhanmondi, Dhaka
+                      {tutor.location}
                     </h4>
                   </div>
                 </div>
@@ -203,9 +218,7 @@ const TutorDetailsPage = () => {
                 </h3>
 
                 <p className="mt-4 leading-8 text-slate-600">
-                  BSc in Mathematics from Dhaka University. 5 years of tutoring
-                  experience in Mathematics, Algebra, Geometry, and exam
-                  preparation for school and college students.
+                  {tutor.institutionExperience}
                 </p>
               </div>
 

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 import { FaBookOpen, FaClock, FaMapMarkerAlt, FaMoneyBillWave, FaCalendarAlt, FaLaptopHouse } from "react-icons/fa";
 
@@ -14,6 +15,7 @@ const TutorCard = ({ tutor }) => {
         institutionExperience,
         location,
         teachingMode,
+        _id
     } = tutor;
 
     return (
@@ -123,9 +125,11 @@ const TutorCard = ({ tutor }) => {
                         </h2>
                     </div>
 
-                    <button className="rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 px-5 py-3 font-semibold text-white transition hover:scale-105">
-                        View Details
-                    </button>
+                    <Link href={`/tutors/${_id}`}>
+                        <button className="rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 px-5 py-3 font-semibold text-white transition hover:scale-105">
+                            View Details
+                        </button>
+                    </Link>
 
                 </div>
 
