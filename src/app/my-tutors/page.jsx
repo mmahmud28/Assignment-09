@@ -1,25 +1,31 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import BookingTuCard from "../Components/BookingTuCard";
+import Spinner from "../Components/Spinner";
 
 const MyTutorPage = () => {
     const [booking, setBooking] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
 
-    React.useEffect(() => {
-        fetch("http://localhost:5000/allBookings")
-            .then((res) => res.json())
-            .then((data) => {
-                console.log("Response Data:", data); // এখানে লগ হবে
+    useEffect(() => {
 
+       fetch("http://localhost:5000/myBookings?email=student@gmail.com")
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error("Failed to fetch bookings");
+                }
+                return res.json();
+            })
+            .then((data) => {
+                console.log("Response Data:", data);
                 setBooking(data);
                 setLoading(false);
             })
             .catch((error) => {
-                console.error("Fetch Error:", error);
+                console.error(error);
                 setLoading(false);
             });
-    }, []);
+    });
 
     console.log("Booking State:", booking); // State আপডেট হওয়ার পর লগ হবে
 
@@ -76,7 +82,7 @@ const MyTutorPage = () => {
             {/* Booking Cards */}
             {loading ? (
                 <div className="py-2 text-center">
-                    <h2 className="text-xl font-semibold">Loading your bookings...</h2>
+                    <Spinner/>
                 </div>
             ) : (
                 <BookingTuCard booking={booking} />

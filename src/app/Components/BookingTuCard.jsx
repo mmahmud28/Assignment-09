@@ -153,7 +153,7 @@ const BookingTuCard = ({ booking }) => {
                 </div>
 
                 <Link
-                  href={`/tutors/${item?.tutor?.tutorMongoId}`}
+                  href={`/my-tutors/${item._id}`}
                   className="rounded-full bg-gradient-to-r from-indigo-600 to-cyan-600 px-6 py-3 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:scale-105 hover:from-indigo-700 hover:to-cyan-700 hover:shadow-lg"
                 >
                   View Tutor →

@@ -1,6 +1,7 @@
 "use client"
 import React, { useEffect, useState } from "react";
 import TutorCard from "../Components/TutorCard";
+import Spinner from "../Components/Spinner";
 
 const TutorShow = () => {
   const [tutors, setTutors] = useState([]);
@@ -39,7 +40,7 @@ const TutorShow = () => {
         {/* Loading */}
         {loading ? (
           <div className="text-center">
-            <span className="loading loading-spinner loading-lg"></span>
+            <Spinner />
           </div>
         ) : (
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">

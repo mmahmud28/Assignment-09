@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import TutorCard from "../Components/TutorCard";
+import Spinner from "../Components/Spinner";
 
 const Page = () => {
     const [tutors, setTutors] = useState([]);
@@ -150,7 +151,7 @@ const Page = () => {
 
                 {loading ? (
                     <div className="text-center">
-                        <span className="loading loading-spinner loading-lg"></span>
+                        <Spinner/>
                     </div>
                 ) : (
                     <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
