@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import BookingTutor from "../Components/BookingTutor";
+import BookingTuCard from "../Components/BookingTuCard";
 
 const MyTutorPage = () => {
     const [booking, setBooking] = React.useState(null);
@@ -24,7 +24,7 @@ const MyTutorPage = () => {
     console.log("Booking State:", booking); // State আপডেট হওয়ার পর লগ হবে
 
     return (
-        <div className="mx-auto max-w-7xl p-5">
+      <div className="bg-white/90 p-5 backdrop-blur">
             {/* Page Header */}
             <div className="mb-8 rounded-3xl bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-600 p-8 text-white shadow-xl">
                 <p className="text-sm font-semibold uppercase tracking-widest text-indigo-100">
@@ -75,11 +75,11 @@ const MyTutorPage = () => {
 
             {/* Booking Cards */}
             {loading ? (
-                <div className="py-20 text-center">
+                <div className="py-2 text-center">
                     <h2 className="text-xl font-semibold">Loading your bookings...</h2>
                 </div>
             ) : (
-                <BookingTutor booking={booking} />
+                <BookingTuCard booking={booking} />
             )}
         </div>
     );
