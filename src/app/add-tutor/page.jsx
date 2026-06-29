@@ -1,6 +1,8 @@
 import React from "react";
 import Link from "next/link";
 
+////////////// git add . git commit -m "Add Tutor Page with Form and Info Card" git push
+
 const AddTutorPage = () => {
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-slate-50 via-indigo-50/40 to-white px-4 py-12">

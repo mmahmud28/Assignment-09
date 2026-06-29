@@ -1,8 +1,6 @@
 import Image from "next/image";
 import React from "react";
 
-
-
 const TutorDetailsPage = async ({ params }) => {
   const { id } = await params;
 

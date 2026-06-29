@@ -1,155 +1,364 @@
+"use client";
 import React from "react";
+import Link from "next/link";
+import Image from "next/image";
 
 const BookingTutor = ({ booking }) => {
-  const status = booking?.bookStatus || "pending";
 
-  const statusStyle = {
+  const bookingStatusStyle = {
     pending: "bg-yellow-100 text-yellow-700 border-yellow-200",
     confirmed: "bg-green-100 text-green-700 border-green-200",
     cancelled: "bg-red-100 text-red-700 border-red-200",
   };
 
-  return (
-    <div className="group relative overflow-hidden rounded-[2rem] border border-slate-100 bg-white p-6 shadow-xl transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
-      {/* Background Glow */}
-      <div className="absolute -right-16 -top-16 h-44 w-44 rounded-full bg-indigo-200/50 blur-3xl transition group-hover:bg-purple-200/70" />
-      <div className="absolute -bottom-16 -left-16 h-44 w-44 rounded-full bg-cyan-200/40 blur-3xl" />
+  const paymentStatusStyle = {
+    unpaid: "bg-red-100 text-red-700 border-red-200",
+    paid: "bg-green-100 text-green-700 border-green-200",
+    processing: "bg-blue-100 text-blue-700 border-blue-200",
+  };
 
-      <div className="relative">
-        {/* Top */}
-        <div className="flex flex-col justify-between gap-4 border-b border-dashed border-slate-200 pb-5 sm:flex-row sm:items-center">
-          <div>
-            <p className="text-xs font-black uppercase tracking-[0.25em] text-indigo-500">
-              Session Token
-            </p>
-
-            <h2 className="mt-2 text-2xl font-black text-slate-900">
-              {booking?.sessionToken || "MQ-2026-874521"}
-            </h2>
-          </div>
-
-          <span
-            className={`inline-flex w-fit rounded-full border px-4 py-2 text-xs font-black capitalize ${
-              statusStyle[status] || statusStyle.pending
-            }`}
-          >
-            {status}
-          </span>
-        </div>
-
-        {/* Tutor Info */}
-        <div className="mt-6 rounded-[1.5rem] bg-gradient-to-r from-indigo-50 to-purple-50 p-5">
-          <div className="flex items-start gap-4">
-            <div className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-white text-2xl shadow-md">
-              👨‍🏫
-            </div>
-
-            <div>
-              <p className="text-sm font-black text-indigo-600">
-                Tutor Information
-              </p>
-
-              <h3 className="mt-1 text-xl font-black text-slate-900">
-                {booking?.tutorName || "Mr. Rahim Ahmed"}
-              </h3>
-
-              <p className="mt-1 text-sm font-semibold text-slate-500">
-                {booking?.tutorSubject || "Mathematics"} Tutor
-              </p>
-
-              <p className="mt-2 text-sm text-slate-500">
-                {booking?.tutorEmail || "tutor@gmail.com"}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Student Info */}
-        <div className="mt-5 grid gap-4 md:grid-cols-2">
-          <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
-            <p className="text-xs font-black uppercase text-slate-500">
-              Student Name
-            </p>
-            <h4 className="mt-2 font-black text-slate-900">
-              {booking?.studentName || "RD Plus"}
-            </h4>
-          </div>
-
-          <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
-            <p className="text-xs font-black uppercase text-slate-500">
-              Student Email
-            </p>
-            <h4 className="mt-2 break-all font-black text-slate-900">
-              {booking?.studentEmail || "student@gmail.com"}
-            </h4>
-          </div>
-
-          <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
-            <p className="text-xs font-black uppercase text-slate-500">
-              Phone
-            </p>
-            <h4 className="mt-2 font-black text-slate-900">
-              {booking?.studentPhone || "01850020101"}
-            </h4>
-          </div>
-
-          <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
-            <p className="text-xs font-black uppercase text-slate-500">
-              Hourly Fee
-            </p>
-            <h4 className="mt-2 text-xl font-black text-indigo-600">
-              ৳{booking?.hourlyFee || 500}
-            </h4>
-          </div>
-        </div>
-
-        {/* Schedule */}
-        <div className="mt-5 rounded-[1.5rem] border border-indigo-100 bg-white p-5 shadow-sm">
-          <p className="mb-4 text-sm font-black text-slate-900">
-            Session Schedule
-          </p>
-
-          <div className="grid gap-4 sm:grid-cols-3">
-            <div>
-              <p className="text-xs font-bold text-slate-400">Date</p>
-              <p className="mt-1 text-sm font-black text-slate-800">
-                {booking?.sessionDate || "2026-07-01"}
-              </p>
-            </div>
-
-            <div>
-              <p className="text-xs font-bold text-slate-400">Days</p>
-              <p className="mt-1 text-sm font-black text-slate-800">
-                {booking?.availableDays || "Sun - Thu"}
-              </p>
-            </div>
-
-            <div>
-              <p className="text-xs font-bold text-slate-400">Time</p>
-              <p className="mt-1 text-sm font-black text-slate-800">
-                {booking?.availableTime || "5:00 PM - 8:00 PM"}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom Action */}
-        <div className="mt-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
-          <div>
-            <p className="text-xs font-bold text-slate-400">Tutor ID</p>
-            <p className="mt-1 text-sm font-black text-slate-700">
-              {booking?.tutorId || "TUTOR-DEMO-ID"}
-            </p>
-          </div>
-
-          <button
-            type="button"
-            className="rounded-full bg-red-50 px-6 py-3 text-sm font-black text-red-600 transition hover:bg-red-500 hover:text-white"
-          >
-            Cancel Booking
-          </button>
-        </div>
+  if (!booking || booking.length === 0) {
+    return (
+      <div className="py-10 text-center">
+        <h2>No Booking Found</h2>
       </div>
+    );
+  }
+
+
+  return (
+    <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 p-5">
+      {booking.map((item) => {
+        const bookingStatus = item.bookingStatus || "pending";
+        const paymentStatus = item.paymentStatus || "unpaid";
+        const isCancelled = item.cancel?.isCancelled || false;
+
+        return (
+          <div
+            key={item._id}
+            className="group relative overflow-hidden rounded-[2rem] border border-slate-100 bg-white shadow-xl transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
+          >
+
+            {/* Background Glow */}
+            <div className="absolute -right-20 -top-20 h-56 w-56 rounded-full bg-indigo-200/60 blur-3xl" />
+            <div className="absolute -bottom-24 -left-24 h-56 w-56 rounded-full bg-cyan-200/50 blur-3xl" />
+
+            <div className="relative">
+              {/* Header */}
+              <div className="relative overflow-hidden bg-gradient-to-r from-slate-950 via-indigo-950 to-purple-950 px-6 py-7 text-white">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.22),transparent_35%)]" />
+
+                <div className="relative flex flex-col justify-between gap-5 md:flex-row md:items-center">
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-[0.25em] text-indigo-200">
+                      Digital Session Token
+                    </p>
+
+                    <h2 className="mt-2 text-3xl font-black">
+                      {booking?.sessionToken || "MQ-2026-874521"}
+                    </h2>
+
+                    <p className="mt-2 text-sm font-medium text-slate-300">
+                      Booked on {booking?.bookingDate || "2026-06-29"} at{" "}
+                      {booking?.bookingTime || "10:35 AM"}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap gap-3">
+                    <span
+                      className={`rounded-full border px-4 py-2 text-xs font-black capitalize ${bookingStatusStyle[bookingStatus] || bookingStatusStyle.pending
+                        }`}
+                    >
+                      {bookingStatus}
+                    </span>
+
+                    <span
+                      className={`rounded-full border px-4 py-2 text-xs font-black capitalize ${paymentStatusStyle[paymentStatus] || paymentStatusStyle.unpaid
+                        }`}
+                    >
+                      {paymentStatus}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-6">
+                {/* Tutor + Student */}
+                <div className="grid gap-5 lg:grid-cols-1">
+                  {/* Tutor */}
+                  <div className="rounded-[2rem] border border-indigo-100 bg-indigo-50/70 p-5">
+                    <div className="flex items-start gap-4">
+                      <Image
+                        src={
+                          booking?.tutor?.photo ||
+                          "https://randomuser.me/api/portraits/men/1.jpg"
+                        }
+                        alt={booking?.tutor?.name || "Tutor"}
+                        width={80}
+                        height={80}
+                        className="h-20 w-20 shrink-0 rounded-3xl border-4 border-white object-cover shadow-lg"
+                      />
+
+                      <div>
+                        <p className="text-xs font-black uppercase text-indigo-500">
+                          Tutor
+                        </p>
+
+                        <h3 className="mt-1 text-xl font-black text-slate-900">
+                          {booking?.tutor?.name || "Mr. Rahim Ahmed"}
+                        </h3>
+
+                        <p className="mt-1 text-sm font-bold text-indigo-600">
+                          {booking?.tutor?.subject || "Mathematics"} Tutor
+                        </p>
+
+                        <p className="mt-2 break-all text-sm font-medium text-slate-500">
+                          {booking?.tutor?.email || "tutor@gmail.com"}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                      <div className="rounded-2xl bg-white p-4">
+                        <p className="text-xs font-black text-slate-400">Fee</p>
+                        <h4 className="mt-1 text-xl font-black text-indigo-600">
+                          ৳{booking?.tutor?.hourlyFee || 500}
+                        </h4>
+                      </div>
+
+                      <div className="rounded-2xl bg-white p-4">
+                        <p className="text-xs font-black text-slate-400">Mode</p>
+                        <h4 className="mt-1 font-black text-slate-900">
+                          {booking?.tutor?.teachingMode || "Both"}
+                        </h4>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Student */}
+                  {/* <div className="rounded-[2rem] border border-purple-100 bg-purple-50/70 p-5">
+              <div className="flex items-start gap-4">
+                <Image
+                  src={
+                    booking?.student?.photo ||
+                    "https://randomuser.me/api/portraits/men/11.jpg"
+                  }
+                  alt={booking?.student?.name || "Student"}
+                  width={80}
+                  height={80}
+                  className="h-20 w-20 shrink-0 rounded-3xl border-4 border-white object-cover shadow-lg"
+                />
+
+                <div>
+                  <p className="text-xs font-black uppercase text-purple-500">
+                    Student
+                  </p>
+
+                  <h3 className="mt-1 text-xl font-black text-slate-900">
+                    {booking?.student?.name || "RD Plus"}
+                  </h3>
+
+                  <p className="mt-2 break-all text-sm font-medium text-slate-500">
+                    {booking?.student?.email || "student@gmail.com"}
+                  </p>
+
+                  <p className="mt-1 text-sm font-bold text-purple-600">
+                    {booking?.student?.phone || "01850020101"}
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-5 rounded-2xl bg-white p-4">
+                <p className="text-xs font-black text-slate-400">Student ID</p>
+                <h4 className="mt-1 break-all font-black text-slate-900">
+                  {booking?.student?.studentId || "student001"}
+                </h4>
+              </div>
+            </div> */}
+                </div>
+
+                {/* Session Details */}
+                <div className="mt-6 rounded-[2rem] border border-slate-100 bg-slate-50 p-5">
+                  <div className="mb-5 flex items-center justify-between gap-4">
+                    <div>
+                      <p className="text-xs font-black uppercase text-cyan-500">
+                        Session Details
+                      </p>
+                      <h3 className="mt-1 text-2xl font-black text-slate-900">
+                        Learning Schedule
+                      </h3>
+                    </div>
+
+                    <div className="grid h-14 w-14 place-items-center rounded-2xl bg-cyan-100 text-2xl">
+                      📅
+                    </div>
+                  </div>
+
+                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                    <div className="rounded-2xl bg-white p-4 shadow-sm">
+                      <p className="text-xs font-black text-slate-400">Date</p>
+                      <h4 className="mt-1 font-black text-slate-900">
+                        {booking?.session?.date || "2026-07-01"}
+                      </h4>
+                    </div>
+
+                    <div className="rounded-2xl bg-white p-4 shadow-sm">
+                      <p className="text-xs font-black text-slate-400">Day</p>
+                      <h4 className="mt-1 font-black text-slate-900">
+                        {booking?.session?.day || "Sun - Thu"}
+                      </h4>
+                    </div>
+
+                    <div className="rounded-2xl bg-white p-4 shadow-sm">
+                      <p className="text-xs font-black text-slate-400">Time</p>
+                      <h4 className="mt-1 font-black text-slate-900">
+                        {booking?.session?.time || "5:00 PM - 8:00 PM"}
+                      </h4>
+                    </div>
+
+                    <div className="rounded-2xl bg-white p-4 shadow-sm">
+                      <p className="text-xs font-black text-slate-400">Duration</p>
+                      <h4 className="mt-1 font-black text-slate-900">
+                        {booking?.session?.duration || "1 Hour"}
+                      </h4>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 grid gap-4 md:grid-cols-2">
+                    <div className="rounded-2xl bg-white p-4 shadow-sm">
+                      <p className="text-xs font-black text-slate-400">
+                        Meeting Type
+                      </p>
+                      <h4 className="mt-1 font-black text-slate-900">
+                        {booking?.session?.meetingType || "Online"}
+                      </h4>
+                    </div>
+
+                    <div className="rounded-2xl bg-white p-4 shadow-sm">
+                      <p className="text-xs font-black text-slate-400">Location</p>
+                      <h4 className="mt-1 font-black text-slate-900">
+                        {booking?.tutor?.location || "Dhanmondi, Dhaka"}
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Payment / Review / Cancel */}
+                <div className="mt-6 grid gap-5 lg:grid-cols-3">
+                  <div className="rounded-[2rem] border border-green-100 bg-green-50 p-5">
+                    <div className="grid h-12 w-12 place-items-center rounded-2xl bg-green-100 text-2xl">
+                      💳
+                    </div>
+
+                    <p className="mt-4 text-xs font-black uppercase text-green-600">
+                      Payment
+                    </p>
+
+                    <h3 className="mt-1 text-2xl font-black text-slate-900">
+                      {booking?.payment?.currency || "BDT"}{" "}
+                      {booking?.payment?.amount || 500}
+                    </h3>
+
+                    <p className="mt-2 text-sm font-semibold text-slate-500">
+                      Method: {booking?.payment?.method || "Not selected"}
+                    </p>
+
+                    <p className="mt-1 break-all text-xs font-semibold text-slate-400">
+                      TXN: {booking?.payment?.transactionId || "Not paid yet"}
+                    </p>
+                  </div>
+
+                  <div className="rounded-[2rem] border border-yellow-100 bg-yellow-50 p-5">
+                    <div className="grid h-12 w-12 place-items-center rounded-2xl bg-yellow-100 text-2xl">
+                      ⭐
+                    </div>
+
+                    <p className="mt-4 text-xs font-black uppercase text-yellow-600">
+                      Review
+                    </p>
+
+                    <h3 className="mt-1 text-2xl font-black text-slate-900">
+                      {booking?.review?.rating || "No Rating"}
+                    </h3>
+
+                    <p className="mt-2 text-sm font-semibold text-slate-500">
+                      {booking?.review?.comment || "Review not submitted yet."}
+                    </p>
+                  </div>
+
+                  <div
+                    className={`rounded-[2rem] border p-5 ${isCancelled
+                      ? "border-red-100 bg-red-50"
+                      : "border-slate-100 bg-slate-50"
+                      }`}
+                  >
+                    <div
+                      className={`grid h-12 w-12 place-items-center rounded-2xl text-2xl ${isCancelled ? "bg-red-100" : "bg-slate-100"
+                        }`}
+                    >
+                      {isCancelled ? "❌" : "🛡️"}
+                    </div>
+
+                    <p
+                      className={`mt-4 text-xs font-black uppercase ${isCancelled ? "text-red-600" : "text-slate-500"
+                        }`}
+                    >
+                      Cancel Status
+                    </p>
+
+                    <h3 className="mt-1 text-2xl font-black text-slate-900">
+                      {isCancelled ? "Cancelled" : "Active"}
+                    </h3>
+
+                    <p className="mt-2 text-sm font-semibold text-slate-500">
+                      Reason: {booking?.cancel?.cancelReason || "No reason added"}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Experience */}
+                <div className="mt-6 rounded-[2rem] border border-slate-100 bg-white p-5 shadow-sm">
+                  <p className="text-xs font-black uppercase text-indigo-500">
+                    Tutor Experience
+                  </p>
+
+                  <p className="mt-3 leading-7 text-slate-600">
+                    {booking?.tutor?.institutionExperience ||
+                      "BSc in Mathematics, 5 years teaching experience"}
+                  </p>
+                </div>
+
+                {/* Footer Actions */}
+                <div className="mt-6 flex flex-col justify-between gap-4 border-t border-dashed border-slate-200 pt-6 md:flex-row md:items-center">
+                  <div>
+                    <p className="text-xs font-bold text-slate-400">Booking ID</p>
+                    <p className="mt-1 break-all text-sm font-black text-slate-700">
+                      {booking?._id || "booking001"}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col gap-3 sm:flex-row">
+                    <Link
+                      href={`/tutors/${booking?.tutor?.tutorMongoId || "demo-id"}`}
+                      className="rounded-full border border-indigo-200 bg-indigo-50 px-6 py-3 text-center text-sm font-black text-indigo-600 transition hover:bg-indigo-600 hover:text-white"
+                    >
+                      View Tutor
+                    </Link>
+
+                    <button
+                      type="button"
+                      className="rounded-full bg-red-50 px-6 py-3 text-sm font-black text-red-600 transition hover:bg-red-500 hover:text-white"
+                    >
+                      Cancel Session
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        );
+      })}
     </div>
   );
 };
