@@ -33,6 +33,12 @@ const MyBookedSessionsPage = () => {
     );
   }
 
+  const studentName = booking.length > 0 ? booking[0].student.name : "";
+  const totalBookings = booking.length;
+  const confirmedBookings = booking.filter((item) => item.bookingStatus === "Confirmed").length;
+  const pendingBookings = booking.filter(
+    (item) => item.bookingStatus === "Pending"
+  ).length;
 
   console.log(booking);
 
@@ -78,7 +84,7 @@ const MyBookedSessionsPage = () => {
             <p className="mt-4 text-sm font-black text-indigo-600">
               Total Bookings
             </p>
-            <h3 className="mt-1 text-3xl font-black text-slate-900">03</h3>
+            <h3 className="mt-1 text-3xl font-black text-slate-900">{totalBookings}</h3>
           </div>
 
           <div className="rounded-[2rem] border border-white bg-white/90 p-6 shadow-xl backdrop-blur-xl">
@@ -88,7 +94,7 @@ const MyBookedSessionsPage = () => {
             <p className="mt-4 text-sm font-black text-green-600">
               Confirmed
             </p>
-            <h3 className="mt-1 text-3xl font-black text-slate-900">02</h3>
+            <h3 className="mt-1 text-3xl font-black text-slate-900">{confirmedBookings}</h3>
           </div>
 
           <div className="rounded-[2rem] border border-white bg-white/90 p-6 shadow-xl backdrop-blur-xl">
@@ -98,7 +104,7 @@ const MyBookedSessionsPage = () => {
             <p className="mt-4 text-sm font-black text-yellow-600">
               Pending
             </p>
-            <h3 className="mt-1 text-3xl font-black text-slate-900">01</h3>
+            <h3 className="mt-1 text-3xl font-black text-slate-900">{pendingBookings}</h3>
           </div>
         </div>
 
@@ -121,7 +127,7 @@ const MyBookedSessionsPage = () => {
             </div>
 
             <div className="rounded-full bg-indigo-50 px-5 py-2 text-sm font-bold text-indigo-600">
-              Student: student@gmail.com
+              {studentName}
             </div>
           </div>
 
@@ -156,22 +162,22 @@ const MyBookedSessionsPage = () => {
 
                         <div>
                           <p className="font-black text-slate-900">
-                            {item.tutorName}
+                            {item.tutor.name}
                           </p>
 
                           <p className="text-xs font-semibold text-slate-500">
-                            {item.subject}
+                            {item.tutor.subject}
                           </p>
                         </div>
                       </div>
                     </td>
 
                     <td className="px-6 py-5 font-bold text-slate-700">
-                      {item.studentName}
+                      {item.student.name}
                     </td>
 
                     <td className="px-6 py-5 text-sm font-semibold text-slate-500">
-                      {item.email}
+                      {item.student.email}
                     </td>
 
                     <td className="px-6 py-5">
@@ -181,7 +187,7 @@ const MyBookedSessionsPage = () => {
                             : "bg-yellow-100 text-yellow-700"
                           }`}
                       >
-                        {item.status}
+                        {item.bookingStatus}
                       </span>
                     </td>
 
