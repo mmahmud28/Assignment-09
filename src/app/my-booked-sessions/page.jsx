@@ -1,7 +1,43 @@
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
 import Link from "next/link";
+import Spinner from "../Components/Spinner";
 
 const MyBookedSessionsPage = () => {
+  const [booking, setBooking] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+
+
+  useEffect(() => {
+    fetch("http://localhost:5000/myBookings?email=student@gmail.com")
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to fetch bookings");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setBooking(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return (
+      <Spinner />
+    );
+  }
+
+
+  console.log(booking);
+
+
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-slate-50 via-indigo-50/40 to-white px-4 py-12">
       {/* Background Glow */}
@@ -66,6 +102,12 @@ const MyBookedSessionsPage = () => {
           </div>
         </div>
 
+
+        {
+
+        }
+
+
         {/* Table Card */}
         <div className="overflow-hidden rounded-[2rem] border border-white bg-white/95 shadow-2xl backdrop-blur-xl">
           <div className="flex flex-col justify-between gap-4 border-b border-slate-100 p-6 md:flex-row md:items-center">
@@ -97,141 +139,67 @@ const MyBookedSessionsPage = () => {
               </thead>
 
               <tbody>
-                {/* Row 1 */}
-                <tr className="border-b border-slate-100 transition hover:bg-indigo-50/40">
-                  <td className="px-6 py-5 font-bold text-slate-500">01</td>
+                {booking.map((item, index) => (
+                  <tr
+                    key={item._id}
+                    className="border-b border-slate-100 transition hover:bg-indigo-50/40"
+                  >
+                    <td className="px-6 py-5 font-bold text-slate-500">
+                      {index + 1}
+                    </td>
 
-                  <td className="px-6 py-5">
-                    <div className="flex items-center gap-3">
-                      <div className="grid h-11 w-11 place-items-center rounded-2xl bg-indigo-100 text-lg">
-                        👨‍🏫
+                    <td className="px-6 py-5">
+                      <div className="flex items-center gap-3">
+                        <div className="grid h-11 w-11 place-items-center rounded-2xl bg-indigo-100 text-lg">
+                          👨‍🏫
+                        </div>
+
+                        <div>
+                          <p className="font-black text-slate-900">
+                            {item.tutorName}
+                          </p>
+
+                          <p className="text-xs font-semibold text-slate-500">
+                            {item.subject}
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="font-black text-slate-900">
-                          Mr. Rahim Ahmed
-                        </p>
-                        <p className="text-xs font-semibold text-slate-500">
-                          Mathematics Tutor
-                        </p>
-                      </div>
-                    </div>
-                  </td>
+                    </td>
 
-                  <td className="px-6 py-5 font-bold text-slate-700">
-                    RD Plus
-                  </td>
+                    <td className="px-6 py-5 font-bold text-slate-700">
+                      {item.studentName}
+                    </td>
 
-                  <td className="px-6 py-5 text-sm font-semibold text-slate-500">
-                    student@gmail.com
-                  </td>
+                    <td className="px-6 py-5 text-sm font-semibold text-slate-500">
+                      {item.email}
+                    </td>
 
-                  <td className="px-6 py-5">
-                    <span className="rounded-full bg-green-100 px-4 py-2 text-xs font-black text-green-700">
-                      Confirmed
-                    </span>
-                  </td>
+                    <td className="px-6 py-5">
+                      <span
+                        className={`rounded-full px-4 py-2 text-xs font-black ${item.status === "Confirmed"
+                            ? "bg-green-100 text-green-700"
+                            : "bg-yellow-100 text-yellow-700"
+                          }`}
+                      >
+                        {item.status}
+                      </span>
+                    </td>
 
-                  <td className="px-6 py-5 text-right">
-                    <button
-                      type="button"
-                      className="rounded-full bg-red-50 px-5 py-2 text-sm font-black text-red-600 transition hover:bg-red-500 hover:text-white"
-                    >
-                      Cancel
-                    </button>
-                  </td>
-                </tr>
-
-                {/* Row 2 */}
-                <tr className="border-b border-slate-100 transition hover:bg-indigo-50/40">
-                  <td className="px-6 py-5 font-bold text-slate-500">02</td>
-
-                  <td className="px-6 py-5">
-                    <div className="flex items-center gap-3">
-                      <div className="grid h-11 w-11 place-items-center rounded-2xl bg-purple-100 text-lg">
-                        👩‍🏫
-                      </div>
-                      <div>
-                        <p className="font-black text-slate-900">
-                          Ms. Nusrat Jahan
-                        </p>
-                        <p className="text-xs font-semibold text-slate-500">
-                          English Tutor
-                        </p>
-                      </div>
-                    </div>
-                  </td>
-
-                  <td className="px-6 py-5 font-bold text-slate-700">
-                    RD Plus
-                  </td>
-
-                  <td className="px-6 py-5 text-sm font-semibold text-slate-500">
-                    student@gmail.com
-                  </td>
-
-                  <td className="px-6 py-5">
-                    <span className="rounded-full bg-yellow-100 px-4 py-2 text-xs font-black text-yellow-700">
-                      Pending
-                    </span>
-                  </td>
-
-                  <td className="px-6 py-5 text-right">
-                    <button
-                      type="button"
-                      className="rounded-full bg-red-50 px-5 py-2 text-sm font-black text-red-600 transition hover:bg-red-500 hover:text-white"
-                    >
-                      Cancel
-                    </button>
-                  </td>
-                </tr>
-
-                {/* Row 3 */}
-                <tr className="transition hover:bg-indigo-50/40">
-                  <td className="px-6 py-5 font-bold text-slate-500">03</td>
-
-                  <td className="px-6 py-5">
-                    <div className="flex items-center gap-3">
-                      <div className="grid h-11 w-11 place-items-center rounded-2xl bg-cyan-100 text-lg">
-                        👨‍🏫
-                      </div>
-                      <div>
-                        <p className="font-black text-slate-900">
-                          Mr. Tanvir Hasan
-                        </p>
-                        <p className="text-xs font-semibold text-slate-500">
-                          Physics Tutor
-                        </p>
-                      </div>
-                    </div>
-                  </td>
-
-                  <td className="px-6 py-5 font-bold text-slate-700">
-                    RD Plus
-                  </td>
-
-                  <td className="px-6 py-5 text-sm font-semibold text-slate-500">
-                    student@gmail.com
-                  </td>
-
-                  <td className="px-6 py-5">
-                    <span className="rounded-full bg-green-100 px-4 py-2 text-xs font-black text-green-700">
-                      Confirmed
-                    </span>
-                  </td>
-
-                  <td className="px-6 py-5 text-right">
-                    <button
-                      type="button"
-                      className="rounded-full bg-red-50 px-5 py-2 text-sm font-black text-red-600 transition hover:bg-red-500 hover:text-white"
-                    >
-                      Cancel
-                    </button>
-                  </td>
-                </tr>
+                    <td className="px-6 py-5 text-right">
+                      <button
+                        className="rounded-full bg-red-50 px-5 py-2 text-sm font-black text-red-600 transition hover:bg-red-500 hover:text-white"
+                      >
+                        Cancel
+                      </button>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
         </div>
+
+
 
         {/* Empty State UI Design */}
         <div className="mt-10 rounded-[2rem] border border-dashed border-indigo-200 bg-white/80 p-10 text-center shadow-xl backdrop-blur-xl">

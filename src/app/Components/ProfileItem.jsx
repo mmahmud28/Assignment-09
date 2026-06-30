@@ -1,18 +1,13 @@
+ "use client"
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-const ProfileItem = ({ user }) => {
-  const profileUser = user || {
-    _id: "USER-DEMO-ID",
-    name: "RD Plus",
-    email: "student@gmail.com",
-    photoURL: "https://i.pravatar.cc/300?img=12",
-    role: "user",
-    provider: "email",
-    createdAt: "2026-06-28",
-    lastLoginAt: "2026-06-28",
-  };
+const ProfileItem = ({ user }) => {  
+
+  if (!user) {
+    return <div>User not found</div>;
+  }
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-slate-50 via-indigo-50/50 to-white px-4 py-12">
@@ -48,8 +43,8 @@ const ProfileItem = ({ user }) => {
               <div className="relative z-10 -mt-16 flex justify-center">
                 <div className="rounded-full bg-white p-2 shadow-xl">
                   <Image
-                    src={profileUser.photoURL || "https://i.pravatar.cc/300?img=12"}
-                    alt={profileUser.name || "User"}
+                    src={user.photoURL || "https://i.pravatar.cc/300?img=12"}
+                    alt={user.name || "User"}
                     width={128}
                     height={128}
                     className="h-32 w-32 rounded-full border-4 border-indigo-500 bg-white object-cover"
@@ -59,20 +54,20 @@ const ProfileItem = ({ user }) => {
 
               <div className="px-6 pb-8 pt-5 text-center">
                 <h2 className="text-3xl font-black text-slate-900">
-                  {profileUser.name}
+                  {user.name}
                 </h2>
 
                 <p className="mt-2 break-all text-sm font-semibold text-slate-500">
-                  {profileUser.email}
+                  {user.email}
                 </p>
 
                 <div className="mt-5 flex justify-center gap-3">
                   <span className="rounded-full bg-indigo-100 px-4 py-2 text-xs font-black uppercase text-indigo-600">
-                    {profileUser.role}
+                    {user.role}
                   </span>
 
                   <span className="rounded-full bg-purple-100 px-4 py-2 text-xs font-black uppercase text-purple-600">
-                    {profileUser.provider}
+                    {user.provider}
                   </span>
                 </div>
 
@@ -110,7 +105,7 @@ const ProfileItem = ({ user }) => {
                     User ID
                   </p>
                   <h4 className="mt-2 break-all text-sm font-black text-slate-900">
-                    {profileUser._id}
+                    {user._id}
                   </h4>
                 </div>
 
@@ -119,7 +114,7 @@ const ProfileItem = ({ user }) => {
                     Full Name
                   </p>
                   <h4 className="mt-2 text-lg font-black text-slate-900">
-                    {profileUser.name}
+                    {user.name}
                   </h4>
                 </div>
 
@@ -128,7 +123,7 @@ const ProfileItem = ({ user }) => {
                     Email Address
                   </p>
                   <h4 className="mt-2 break-all text-lg font-black text-slate-900">
-                    {profileUser.email}
+                    {user.email}
                   </h4>
                 </div>
 
@@ -137,7 +132,7 @@ const ProfileItem = ({ user }) => {
                     Login Provider
                   </p>
                   <h4 className="mt-2 text-lg font-black capitalize text-slate-900">
-                    {profileUser.provider}
+                    {user.provider}
                   </h4>
                 </div>
 
@@ -146,7 +141,7 @@ const ProfileItem = ({ user }) => {
                     Account Role
                   </p>
                   <h4 className="mt-2 text-lg font-black capitalize text-slate-900">
-                    {profileUser.role}
+                    {user.role}
                   </h4>
                 </div>
 
@@ -177,7 +172,7 @@ const ProfileItem = ({ user }) => {
                         Joined Date
                       </p>
                       <p className="mt-1 font-black text-slate-900">
-                        {profileUser.createdAt}
+                        {user.joinedDate}
                       </p>
                     </div>
                   </div>
@@ -192,7 +187,7 @@ const ProfileItem = ({ user }) => {
                         Last Login
                       </p>
                       <p className="mt-1 font-black text-slate-900">
-                        {profileUser.lastLoginAt}
+                        {user.lastLoginDate}
                       </p>
                     </div>
                   </div>
