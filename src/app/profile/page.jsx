@@ -1,17 +1,24 @@
 import React from 'react';
 import ProfileItem from '../Components/ProfileItem';
+import Spinner from '../Components/Spinner';
 
 const ProfilePage = () => {
-    const user = {
-        _id: "USER-001",
-        name: "RD Plus",
-        email: "student@gmail.com",
-        photoURL: "https://i.pravatar.cc/300?img=12",
-        role: "user",
-        provider: "email",
-        createdAt: "2026-06-28",
-        lastLoginAt: "2026-06-28",
-    };
+    const [user, setUser] = React.useState(null);
+    const [loading, setLoading] = React.useState(true);
+
+    React.useEffect(() => {
+        fetch("http://localhost:3000/users")
+            .then(response => response.json())
+            .then(data => {
+                setUser(data);
+                setLoading(false);
+            });
+    }, []);
+
+    if (loading) {
+        return <Spinner />;
+    }
+
     return (
         <div>
             <ProfileItem user={user} />;
