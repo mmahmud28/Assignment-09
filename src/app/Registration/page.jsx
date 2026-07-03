@@ -3,11 +3,14 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import toast from "react-hot-toast";
+import { signUp } from "../lib/auth-client";
 
 const Page = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    password: "",
     photoURL: "",
     role: "user",
     preferredLearningMode: "Online",
@@ -20,9 +23,29 @@ const Page = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+
+    console.log("Form Data:", formData); // Log the form data to the console
+
+    const { data, error } = await signUp.email({
+      name: formData.name,
+      email: formData.email,
+      password: formData.password,
+      image: formData.photoURL,
+      role: formData.role,
+      preferredLearningMode: formData.preferredLearningMode,
+      callbackURL: "/",
+    });
+
+    if (error) {
+      console.log(error.message);
+      toast.error('Registration failed. Please try again.');
+      return;
+    }
+
+    router.push("/");
+
   };
 
   return (
@@ -52,15 +75,15 @@ const Page = () => {
           <div className="mt-10 rounded-[34px] border border-white/10 bg-white/10 p-6 shadow-2xl backdrop-blur-2xl">
             <div className="flex items-center gap-5">
               <Image
-              width={96}
-              height={96}
+                width={96}
+                height={96}
                 src={
                   formData.photoURL ||
                   "https://randomuser.me/api/portraits/men/58.jpg"
                 }
                 alt="Profile preview"
                 className="h-24 w-24 rounded-[28px] border-4 border-white/15 object-cover shadow-xl"
-              />               
+              />
 
               <div>
                 <h2 className="text-2xl font-black">
@@ -136,6 +159,21 @@ const Page = () => {
 
                 <div>
                   <label className="mb-2 block text-sm font-bold text-slate-300">
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    name="password"
+                    required
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="••••••••"
+                    className="w-full rounded-2xl border border-white/10 bg-white/10 px-5 py-3 text-sm font-semibold text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-400 focus:bg-white/15 focus:ring-4 focus:ring-cyan-400/10"
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-2 block text-sm font-bold text-slate-300">
                     Photo URL
                   </label>
                   <input
@@ -179,11 +217,10 @@ const Page = () => {
                     {["Online", "Offline", "Hybrid"].map((mode) => (
                       <label
                         key={mode}
-                        className={`cursor-pointer rounded-2xl border px-3 py-4 text-center text-xs font-black transition ${
-                          formData.preferredLearningMode === mode
-                            ? "border-cyan-300 bg-cyan-300/15 text-cyan-200 ring-4 ring-cyan-400/10"
-                            : "border-white/10 bg-white/10 text-slate-400 hover:bg-white/15"
-                        }`}
+                        className={`cursor-pointer rounded-2xl border px-3 py-4 text-center text-xs font-black transition ${formData.preferredLearningMode === mode
+                          ? "border-cyan-300 bg-cyan-300/15 text-cyan-200 ring-4 ring-cyan-400/10"
+                          : "border-white/10 bg-white/10 text-slate-400 hover:bg-white/15"
+                          }`}
                       >
                         <input
                           type="radio"
@@ -210,7 +247,7 @@ const Page = () => {
               <p className="mt-7 text-center text-sm font-medium text-slate-400">
                 Already have an account?{" "}
                 <Link
-                  href="/login"
+                  href="/Login"
                   className="font-black text-cyan-300 hover:text-cyan-200"
                 >
                   Login

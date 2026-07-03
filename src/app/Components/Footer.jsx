@@ -165,19 +165,7 @@ const Footer = () => {
               </Link>
             </div>
 
-            <div className="mt-6 rounded-3xl border border-white/10 bg-white/[0.06] p-5">
-              <p className="font-bold">Need a tutor?</p>
-              <p className="mt-2 text-sm text-slate-400">
-                Start learning with verified tutors today.
-              </p>
-
-              <Link
-                href="/tutors"
-                className="mt-4 inline-flex rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 px-5 py-2 text-sm font-bold text-white shadow-lg shadow-indigo-500/30 transition hover:scale-105"
-              >
-                Browse Tutors
-              </Link>
-            </div>
+            
           </div>
         </div>
 
