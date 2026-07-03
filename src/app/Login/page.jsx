@@ -3,155 +3,136 @@ import Link from "next/link";
 
 const LoginPage = () => {
   return (
-    <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-50 via-indigo-50 to-purple-50 px-4 py-12">
-      {/* Background Decoration */}
-      <div className="absolute left-10 top-16 h-72 w-72 rounded-full bg-indigo-300/30 blur-[120px]" />
-      <div className="absolute bottom-10 right-10 h-72 w-72 rounded-full bg-purple-300/30 blur-[120px]" />
+    <section className="relative min-h-screen overflow-hidden bg-[#070A1A] px-4 py-10 text-white">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(99,102,241,0.35),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(168,85,247,0.35),transparent_35%)]" />
+      <div className="absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-cyan-500/10 blur-[140px]" />
 
-      <div className="relative mx-auto grid min-h-[calc(100vh-96px)] max-w-7xl items-center gap-10 lg:grid-cols-2">
-        {/* Left Content */}
+      <div className="relative mx-auto grid min-h-[calc(100vh-80px)] max-w-7xl items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+        {/* Left */}
         <div className="hidden lg:block">
-          <div className="max-w-xl">
-            <div className="mb-6 inline-flex rounded-full border border-indigo-200 bg-white/70 px-4 py-2 text-sm font-bold text-indigo-600 shadow-sm backdrop-blur">
-              Welcome back to TutorHub
-            </div>
+          <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-5 py-2 text-sm font-bold text-cyan-200 backdrop-blur-xl">
+            <span className="h-2 w-2 rounded-full bg-cyan-300" />
+            TutorHub Learning Portal
+          </div>
 
-            <h1 className="text-5xl font-black leading-tight text-slate-900">
-              Continue Your Learning Journey With Expert Tutors
-            </h1>
+          <h1 className="max-w-3xl text-6xl font-black leading-[1.05] tracking-tight">
+            Learn smarter with your{" "}
+            <span className="bg-gradient-to-r from-cyan-300 via-indigo-300 to-pink-300 bg-clip-text text-transparent">
+              personal tutor network
+            </span>
+          </h1>
 
-            <p className="mt-6 text-lg leading-8 text-slate-600">
-              Log in to manage your booked sessions, find tutors, add tutor
-              services, and continue learning with confidence.
-            </p>
+          <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
+            Access your sessions, manage tutors, track progress, and continue
+            your learning journey from one powerful dashboard.
+          </p>
 
-            <div className="mt-10 grid gap-4 sm:grid-cols-3">
-              <div className="rounded-3xl bg-white/80 p-5 shadow-xl backdrop-blur">
-                <p className="text-3xl font-black text-indigo-600">500+</p>
-                <p className="mt-1 text-sm font-semibold text-slate-500">
-                  Tutors
+          <div className="mt-10 grid max-w-2xl grid-cols-3 gap-4">
+            {[
+              ["500+", "Expert Tutors"],
+              ["1k+", "Active Students"],
+              ["24/7", "Live Support"],
+            ].map(([value, label]) => (
+              <div
+                key={label}
+                className="rounded-[28px] border border-white/10 bg-white/10 p-6 shadow-2xl backdrop-blur-xl"
+              >
+                <p className="text-4xl font-black text-white">{value}</p>
+                <p className="mt-2 text-sm font-semibold text-slate-300">
+                  {label}
                 </p>
               </div>
-
-              <div className="rounded-3xl bg-white/80 p-5 shadow-xl backdrop-blur">
-                <p className="text-3xl font-black text-purple-600">1k+</p>
-                <p className="mt-1 text-sm font-semibold text-slate-500">
-                  Students
-                </p>
-              </div>
-
-              <div className="rounded-3xl bg-white/80 p-5 shadow-xl backdrop-blur">
-                <p className="text-3xl font-black text-cyan-600">24/7</p>
-                <p className="mt-1 text-sm font-semibold text-slate-500">
-                  Support
-                </p>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
 
-        {/* Login Card */}
+        {/* Card */}
         <div className="mx-auto w-full max-w-md">
-          <div className="rounded-[2rem] border border-white bg-white/90 p-6 shadow-2xl backdrop-blur-xl sm:p-8">
-            {/* Logo */}
-            <div className="mb-8 text-center">
-              <Link href="/" className="inline-flex items-center gap-3">
-                <div className="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 text-2xl font-black text-white shadow-lg shadow-indigo-500/30">
-                  T
-                </div>
-              </Link>
+          <div className="relative rounded-[36px] border border-white/10 bg-white/[0.08] p-2 shadow-2xl backdrop-blur-2xl">
+            <div className="absolute -inset-px rounded-[36px] bg-gradient-to-br from-cyan-400/30 via-indigo-500/20 to-pink-500/30 blur-xl" />
 
-              <h2 className="mt-5 text-3xl font-black text-slate-900">
-                Login
-              </h2>
-
-              <p className="mt-2 text-sm text-slate-500">
-                Enter your email and password to access your account.
-              </p>
-            </div>
-
-            {/* Error Message Design */}
-            <div className="mb-5 rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-semibold text-red-600">
-              Invalid email or password. Please try again.
-            </div>
-
-            {/* Form */}
-            <form className="space-y-5">
-              {/* Email */}
-              <div>
-                <label className="mb-2 block text-sm font-bold text-slate-700">
-                  Email Address
-                </label>
-
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 py-3 text-sm font-medium text-slate-700 outline-none transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-100"
-                />
-              </div>
-
-              {/* Password */}
-              <div>
-                <label className="mb-2 block text-sm font-bold text-slate-700">
-                  Password
-                </label>
-
-                <input
-                  type="password"
-                  placeholder="Enter your password"
-                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 py-3 text-sm font-medium text-slate-700 outline-none transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-100"
-                />
-              </div>
-
-              {/* Forget Password */}
-              <div className="flex items-center justify-end">
-                <Link
-                  href="/forgot-password"
-                  className="text-sm font-bold text-indigo-600 hover:text-indigo-700"
-                >
-                  Forget Password?
+            <div className="relative rounded-[30px] border border-white/10 bg-slate-950/80 p-7 sm:p-8">
+              <div className="text-center">
+                <Link href="/" className="inline-flex">
+                  <div className="grid h-16 w-16 place-items-center rounded-3xl bg-gradient-to-br from-cyan-400 via-indigo-500 to-pink-500 text-3xl font-black shadow-lg shadow-indigo-500/40">
+                    T
+                  </div>
                 </Link>
+
+                <h2 className="mt-6 text-4xl font-black">Welcome Back</h2>
+                <p className="mt-2 text-sm text-slate-400">
+                  Sign in to continue to your TutorHub account.
+                </p>
               </div>
 
-              {/* Login Button */}
+              <form className="mt-8 space-y-5">
+                <div>
+                  <label className="mb-2 block text-sm font-bold text-slate-300">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    placeholder="Enter your email"
+                    className="w-full rounded-2xl border border-white/10 bg-white/10 px-5 py-3 text-sm font-semibold text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-400 focus:bg-white/15 focus:ring-4 focus:ring-cyan-400/10"
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-2 block text-sm font-bold text-slate-300">
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    placeholder="Enter your password"
+                    className="w-full rounded-2xl border border-white/10 bg-white/10 px-5 py-3 text-sm font-semibold text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-400 focus:bg-white/15 focus:ring-4 focus:ring-cyan-400/10"
+                  />
+                </div>
+
+                <div className="flex items-center justify-end">
+                  <Link
+                    href="/forgot-password"
+                    className="text-sm font-bold text-cyan-300 hover:text-cyan-200"
+                  >
+                    Forgot Password?
+                  </Link>
+                </div>
+
+                <button
+                  type="button"
+                  className="w-full rounded-2xl bg-gradient-to-r from-cyan-400 via-indigo-500 to-pink-500 px-6 py-3.5 text-sm font-black text-white shadow-lg shadow-indigo-500/30 transition hover:-translate-y-0.5 hover:shadow-xl"
+                >
+                  Login
+                </button>
+              </form>
+
+              <div className="my-7 flex items-center gap-4">
+                <div className="h-px flex-1 bg-white/10" />
+                <span className="text-xs font-bold uppercase text-slate-500">
+                  Or continue with
+                </span>
+                <div className="h-px flex-1 bg-white/10" />
+              </div>
+
               <button
                 type="button"
-                className="w-full rounded-2xl bg-gradient-to-r from-indigo-500 to-purple-500 px-6 py-3 text-sm font-black text-white shadow-lg shadow-indigo-500/30 transition hover:-translate-y-0.5 hover:shadow-xl"
+                className="flex w-full items-center justify-center gap-3 rounded-2xl border border-white/10 bg-white/10 px-6 py-3 text-sm font-black text-white transition hover:bg-white/15"
               >
-                Login
+                <span className="grid h-7 w-7 place-items-center rounded-full bg-white text-sm font-black text-slate-900">
+                  G
+                </span>
+                Login with Google
               </button>
-            </form>
 
-            {/* Divider */}
-            <div className="my-7 flex items-center gap-4">
-              <div className="h-px flex-1 bg-slate-200" />
-              <span className="text-xs font-bold uppercase text-slate-400">
-                Or continue with
-              </span>
-              <div className="h-px flex-1 bg-slate-200" />
+              <p className="mt-7 text-center text-sm font-medium text-slate-400">
+                Don&apos;t have an account?{" "}
+                <Link
+                  href="/register"
+                  className="font-black text-cyan-300 hover:text-cyan-200"
+                >
+                  Register
+                </Link>
+              </p>
             </div>
-
-            {/* Google Button */}
-            <button
-              type="button"
-              className="flex w-full items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-black text-slate-700 shadow-sm transition hover:bg-slate-50 hover:shadow-md"
-            >
-              <span className="grid h-7 w-7 place-items-center rounded-full bg-white text-lg shadow-sm">
-                G
-              </span>
-              Login with Google
-            </button>
-
-            {/* Register Link */}
-            <p className="mt-7 text-center text-sm font-medium text-slate-500">
-              Don&apos;t have an account?{" "}
-              <Link
-                href="/Registration"
-                className="font-black text-indigo-600 hover:text-indigo-700"
-              >
-                Register
-              </Link>
-            </p>
           </div>
         </div>
       </div>
