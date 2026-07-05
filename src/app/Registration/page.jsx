@@ -2,10 +2,60 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import React from "react";
+import toast from "react-hot-toast";
+import { signUp } from "../lib/auth-client";
+import { useRouter } from "next/navigation";
+
+
 
 const Page = () => {
 
-  
+  const router = useRouter();
+
+
+  const [data, setData] = React.useState({
+    name: "",
+    email: "",
+    photoURL: "",
+  });
+
+  const datachange = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+  }
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const registerData = Object.fromEntries(formData.entries());
+
+    const { error } = await signUp.email({
+      name: registerData.name,
+      email: registerData.email,
+      password: registerData.password,
+      image: registerData.photoURL,
+    });
+
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+
+    toast.success("Account created successfully!");
+
+    localStorage.setItem("userEmail", registerData.email);
+    localStorage.setItem("userName", registerData.name);
+
+    // const email = localStorage.getItem("userEmail");
+    // const name = localStorage.getItem("userName");
+
+    toast.success("Registration successful!");
+    router.push("/");
+
+    // Reg Is Completed
+  };
+
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-[#070A1A] px-4 py-10 text-white">
@@ -37,7 +87,7 @@ const Page = () => {
                 width={96}
                 height={96}
                 src={
-                  formData.photoURL ||
+                  data.photoURL ||
                   "https://randomuser.me/api/portraits/men/58.jpg"
                 }
                 alt="Profile preview"
@@ -46,11 +96,11 @@ const Page = () => {
 
               <div>
                 <h2 className="text-2xl font-black">
-                  {formData.name || "Sakib Chowdhury"}
+                  {data.name || "Sakib Chowdhury"}
                 </h2>
                 <p className="mt-1 text-sm font-medium text-slate-300">
-                  {formData.email || "sakib.chowdhury@gmail.com"}
-                </p>                
+                  {data.email || "sakib.chowdhury@gmail.com"}
+                </p>
               </div>
             </div>
           </div>
@@ -75,7 +125,7 @@ const Page = () => {
                 </p>
               </div>
 
-              <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+              <form onSubmit={handleRegister} className="mt-8 space-y-5">
                 <div>
                   <label className="mb-2 block text-sm font-bold text-slate-300">
                     Full Name
@@ -84,8 +134,8 @@ const Page = () => {
                     type="text"
                     name="name"
                     required
-                    value={formData.name}
-                    onChange={handleChange}
+                    value={data.name}
+                    onChange={datachange}
                     placeholder="Sakib Chowdhury"
                     className="w-full rounded-2xl border border-white/10 bg-white/10 px-5 py-3 text-sm font-semibold text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-400 focus:bg-white/15 focus:ring-4 focus:ring-cyan-400/10"
                   />
@@ -99,9 +149,9 @@ const Page = () => {
                     type="email"
                     name="email"
                     required
-                    value={formData.email}
-                    onChange={handleChange}
                     placeholder="sakib.chowdhury@gmail.com"
+                    value={data.email}
+                    onChange={datachange}
                     className="w-full rounded-2xl border border-white/10 bg-white/10 px-5 py-3 text-sm font-semibold text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-400 focus:bg-white/15 focus:ring-4 focus:ring-cyan-400/10"
                   />
                 </div>
@@ -114,8 +164,6 @@ const Page = () => {
                     type="password"
                     name="password"
                     required
-                    value={formData.password}
-                    onChange={handleChange}
                     placeholder="••••••••"
                     className="w-full rounded-2xl border border-white/10 bg-white/10 px-5 py-3 text-sm font-semibold text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-400 focus:bg-white/15 focus:ring-4 focus:ring-cyan-400/10"
                   />
@@ -128,13 +176,13 @@ const Page = () => {
                   <input
                     type="url"
                     name="photoURL"
-                    value={formData.photoURL}
-                    onChange={handleChange}
+                    value={data.photoURL}
+                    onChange={datachange}
                     placeholder="https://randomuser.me/api/portraits/men/58.jpg"
                     className="w-full rounded-2xl border border-white/10 bg-white/10 px-5 py-3 text-sm font-semibold text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-400 focus:bg-white/15 focus:ring-4 focus:ring-cyan-400/10"
                   />
-                </div>          
-                
+                </div>
+
 
                 <button
                   type="submit"

@@ -46,6 +46,11 @@ const LoginPage = () => {
           </div>
         </div>
 
+
+        // this is working fine but the left side is not showing up properly. I want to show the left side content on the login page as well.
+
+
+
         {/* Card */}
         <div className="mx-auto w-full max-w-md">
           <div className="relative rounded-[36px] border border-white/10 bg-white/[0.08] p-2 shadow-2xl backdrop-blur-2xl">
