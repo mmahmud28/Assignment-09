@@ -1,12 +1,26 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@heroui/react";
 import Image from "next/image";
-
+import { signOut } from "../lib/auth-client";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
+  const router = useRouter();
+  const handelLogout = async () => {
+    await signOut();
+
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userName");
+
+    toast.success("Logout successful!");
+
+    router.push("/");
+  };
+
   return (
     <header className="sticky top-0 z-50 border-b bg-white shadow-sm">
       <nav className="navbar mx-auto max-w-7xl px-4 py-3">
@@ -26,7 +40,7 @@ const Navbar = () => {
               </svg>
             </summary>
 
-            <ul className="menu dropdown-content z-[100] mt-4 w-72 rounded-3xl bg-white p-4 shadow-2xl">
+            <ul className="menu dropdown-content z-[100] mt-4 w-72 rounded-3xl text-black bg-white p-4 shadow-2xl">
               <li>
                 <Link href="/" className="font-semibold">
                   Home
@@ -56,12 +70,12 @@ const Navbar = () => {
               <div className="divider my-2" />
 
               <li>
-                <Link href="/login" className="btn btn-outline btn-primary">
+                <Link href="/Login" className="btn btn-outline btn-primary">
                   Login
                 </Link>
               </li>
               <li>
-                <Link href="/register" className="btn btn-primary text-white">
+                <Link href="/Registration" className="btn btn-primary text-white">
                   Register
                 </Link>
               </li>
@@ -229,7 +243,7 @@ const Navbar = () => {
                 <div className="my-3 border-t border-slate-200"></div>
 
                 <li>
-                  <button className="flex w-full items-center rounded-2xl px-4 py-3 font-bold text-red-500 transition-all duration-300 hover:bg-red-50">
+                  <button onClick={handelLogout} className="flex w-full items-center rounded-2xl px-4 py-3 font-bold text-red-500 transition-all duration-300 hover:bg-red-50">
                     🚪
                     <span className="ml-3">Logout</span>
                   </button>

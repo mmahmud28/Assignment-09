@@ -1,7 +1,35 @@
+"use client";
 import React from "react";
 import Link from "next/link";
+import toast from "react-hot-toast";
+import { signIn } from "../lib/auth-client";
 
 const LoginPage = () => {
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const loginData = Object.fromEntries(formData.entries());
+
+    console.log(loginData); // এখানে email/password আছে কিনা দেখুন
+
+    const { data, error } = await signIn.email({
+      email: loginData.email,
+      password: loginData.password,
+      callbackURL: "/",
+    });
+
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+
+    console.log(data);
+
+    toast.success("Login successful!");
+  };
+
   return (
     <section className="relative min-h-screen overflow-hidden bg-[#070A1A] px-4 py-10 text-white">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(99,102,241,0.35),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(168,85,247,0.35),transparent_35%)]" />
@@ -46,11 +74,6 @@ const LoginPage = () => {
           </div>
         </div>
 
-
-        // this is working fine but the left side is not showing up properly. I want to show the left side content on the login page as well.
-
-
-
         {/* Card */}
         <div className="mx-auto w-full max-w-md">
           <div className="relative rounded-[36px] border border-white/10 bg-white/[0.08] p-2 shadow-2xl backdrop-blur-2xl">
@@ -70,13 +93,14 @@ const LoginPage = () => {
                 </p>
               </div>
 
-              <form className="mt-8 space-y-5">
+              <form onSubmit={handleLogin} className="mt-8 space-y-5">
                 <div>
                   <label className="mb-2 block text-sm font-bold text-slate-300">
                     Email Address
                   </label>
                   <input
                     type="email"
+                    name="email"
                     placeholder="Enter your email"
                     className="w-full rounded-2xl border border-white/10 bg-white/10 px-5 py-3 text-sm font-semibold text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-400 focus:bg-white/15 focus:ring-4 focus:ring-cyan-400/10"
                   />
@@ -88,6 +112,7 @@ const LoginPage = () => {
                   </label>
                   <input
                     type="password"
+                    name="password"
                     placeholder="Enter your password"
                     className="w-full rounded-2xl border border-white/10 bg-white/10 px-5 py-3 text-sm font-semibold text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-400 focus:bg-white/15 focus:ring-4 focus:ring-cyan-400/10"
                   />
@@ -103,7 +128,7 @@ const LoginPage = () => {
                 </div>
 
                 <button
-                  type="button"
+                  type="submit"
                   className="w-full rounded-2xl bg-gradient-to-r from-cyan-400 via-indigo-500 to-pink-500 px-6 py-3.5 text-sm font-black text-white shadow-lg shadow-indigo-500/30 transition hover:-translate-y-0.5 hover:shadow-xl"
                 >
                   Login
