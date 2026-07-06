@@ -4,12 +4,18 @@ import React, { useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@heroui/react";
 import Image from "next/image";
-import { signOut } from "../lib/auth-client";
+import { signOut, useSession } from "../lib/auth-client";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
 const Navbar = () => {
   const router = useRouter();
+
+
+  const { data: session, isPending } = useSession();
+
+
+
   const handelLogout = async () => {
     await signOut();
 
@@ -67,18 +73,44 @@ const Navbar = () => {
                 </Link>
               </li>
 
-              <div className="divider my-2" />
 
-              <li>
-                <Link href="/Login" className="btn btn-outline btn-primary">
-                  Login
-                </Link>
-              </li>
-              <li>
-                <Link href="/Registration" className="btn btn-primary text-white">
-                  Register
-                </Link>
-              </li>
+
+              {
+                !isPending ? (
+                  !session ? (
+                    <>
+                      <div className="divider my-1" />
+
+                      <li>
+                        <Link href="/Login" className="btn btn-outline btn-primary">
+                          Login
+                        </Link>
+                      </li>
+
+                      <li>
+                        <Link href="/Registration" className="btn btn-primary text-white">
+                          Register
+                        </Link>
+                      </li>
+                    </>
+                  ) : (
+                    <>
+
+
+                      <li>
+                        <button
+                          onClick={handelLogout}
+                          className="flex w-full items-center rounded-2xl px-4 py-3 font-bold text-red-500 transition-all duration-300 hover:bg-red-50"
+                        >
+                          🚪
+                          <span className="ml-3">Logout</span>
+                        </button>
+                      </li>
+                    </>
+                  )
+                ) : null
+              }
+
             </ul>
           </details>
 
@@ -151,106 +183,117 @@ const Navbar = () => {
 
         {/* Right Side */}
         <div className="navbar-end gap-3">
-          {/* Login/Register Design */}
-          <div className="hidden items-center gap-2 md:flex">
 
 
-            <Button className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg shadow-primary/30 hover:shadow-xl">
-              <Link
-                href="/Login"
-                className="font-bold text-white"
-              >
-                Login
-              </Link>
+          {
+            isPending ? (
+              <div className="loading loading-spinner"></div>
+            ) : session ? (
+              <div className="hidden items-center gap-2 md:flex">
 
-            </Button>
+              </div>
+            ) : (
+              <div className="hidden items-center gap-2 md:flex">
+                <Button className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg shadow-primary/30 hover:shadow-xl">
+                  <Link href="/Login" className="font-bold text-white">
+                    Login
+                  </Link>
+                </Button>
 
-
-
-            <Button className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg shadow-primary/30 hover:shadow-xl">
-              <Link
-                href="/Registration"
-                className="font-bold text-white shadow-lg shadow-primary/30"
-              >
-                Registration
-              </Link>
-            </Button>
-
-
-
-
-          </div>
+                <Button className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg shadow-primary/30 hover:shadow-xl">
+                  <Link
+                    href="/Registration"
+                    className="font-bold text-white"
+                  >
+                    Registration
+                  </Link>
+                </Button>
+              </div>
+            )
+          }
 
           {/* User Profile Dropdown Design */}
-          <div className="dropdown dropdown-end">
-            <div
-              tabIndex={0}
-              role="button"
-              className="flex items-center gap-2 rounded-full border border-slate-200 bg-white px-2 py-1 shadow-md transition hover:shadow-lg"
-            >
+          {
+            session && (
+              <div className="dropdown dropdown-end">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="flex items-center gap-2 rounded-full border border-slate-200 bg-white px-2 py-1 shadow-md transition hover:shadow-lg"
+                >
 
-              <Image
-                src="https://i.pravatar.cc/150?img=32"
-                alt="User"
-                width={36}
-                height={36}
-                className="rounded-full border-2 border-indigo-500 object-cover"
-              />
+                  <Image
+                    src={session?.user?.image || "/default-avatar.png"}
+                    alt="User"
+                    width={36}
+                    height={36}
+                    className="rounded-full border-2 border-indigo-500 object-cover"
+                  />
 
-              <span className="hidden pr-2 text-sm font-bold text-slate-700 md:block">
-                RD Plus
-              </span>
-            </div>
-
-            <ul
-              tabIndex={0}
-              className="dropdown-content z-[9999] mt-4 w-72 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl"
-            >
-              {/* Top Header */}
-              <div className="relative overflow-hidden bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 p-6">
-                {/* Decorative Circles */}
-                <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-white/10"></div>
-                <div className="absolute -bottom-10 -left-10 h-28 w-28 rounded-full bg-white/10"></div>
-
-                <div className="relative">
-                  <p className="text-lg font-bold text-white">RD Plus</p>
-                  <p className="text-sm text-indigo-100">student@gmail.com</p>
+                  <span className="hidden pr-2 text-sm font-bold text-slate-700 md:block">
+                    {session?.user?.name}
+                  </span>
                 </div>
+
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content z-[9999] mt-4 w-72 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl"
+                >
+                  {/* Top Header */}
+                  <div className="relative overflow-hidden bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 p-6">
+                    {/* Decorative Circles */}
+                    <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-white/10"></div>
+                    <div className="absolute -bottom-10 -left-10 h-28 w-28 rounded-full bg-white/10"></div>
+
+                    <div className="relative">
+                      <p className="text-lg font-bold text-white">{session?.user?.name}</p>
+                      <p className="text-sm text-indigo-100">{session?.user?.email}</p>
+                    </div>
+                  </div>
+
+                  {/* Menu */}
+                  <div className="p-3">
+                    <li>
+                      <Link
+                        href="/profile"
+                        className="flex items-center rounded-2xl px-4 py-3 text-[15px] font-semibold text-slate-700 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600"
+                      >
+                        👤
+                        <span className="ml-3">Profile Page</span>
+                      </Link>
+                    </li>
+
+                    <li className="mt-1">
+                      <Link
+                        href="/my-booked-sessions"
+                        className="flex items-center rounded-2xl px-4 py-3 text-[15px] font-semibold text-slate-700 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600"
+                      >
+                        📚
+                        <span className="ml-3">My Booked Sessions</span>
+                      </Link>
+                    </li>
+
+                    <div className="my-3 border-t border-slate-200"></div>
+
+                    {
+                      !isPending && session && (
+                        <li>
+                          <button
+                            onClick={handelLogout}
+                            className="flex w-full items-center rounded-2xl px-4 py-3 font-bold text-red-500 transition-all duration-300 hover:bg-red-50"
+                          >
+                            🚪
+                            <span className="ml-3">Logout</span>
+                          </button>
+                        </li>
+                      )
+                    }
+
+                  </div>
+                </ul>
               </div>
-
-              {/* Menu */}
-              <div className="p-3">
-                <li>
-                  <Link
-                    href="/profile"
-                    className="flex items-center rounded-2xl px-4 py-3 text-[15px] font-semibold text-slate-700 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600"
-                  >
-                    👤
-                    <span className="ml-3">Profile Page</span>
-                  </Link>
-                </li>
-
-                <li className="mt-1">
-                  <Link
-                    href="/my-booked-sessions"
-                    className="flex items-center rounded-2xl px-4 py-3 text-[15px] font-semibold text-slate-700 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600"
-                  >
-                    📚
-                    <span className="ml-3">My Booked Sessions</span>
-                  </Link>
-                </li>
-
-                <div className="my-3 border-t border-slate-200"></div>
-
-                <li>
-                  <button onClick={handelLogout} className="flex w-full items-center rounded-2xl px-4 py-3 font-bold text-red-500 transition-all duration-300 hover:bg-red-50">
-                    🚪
-                    <span className="ml-3">Logout</span>
-                  </button>
-                </li>
-              </div>
-            </ul>
-          </div>
+            )
+          }
         </div>
       </nav>
     </header>
