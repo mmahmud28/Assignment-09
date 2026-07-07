@@ -2,7 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import toast from "react-hot-toast";
-import { signIn } from "../lib/auth-client";
+import { authClient, signIn } from "../lib/auth-client";
 
 const LoginPage = () => {
 
@@ -24,6 +24,18 @@ const LoginPage = () => {
       toast.error(error.message);
       return;
     }
+
+
+    const { data: tokenData } = await authClient.token()
+
+
+
+    console.log(tokenData);
+    
+
+
+
+
 
     console.log(data);
 
