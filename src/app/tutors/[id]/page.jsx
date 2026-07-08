@@ -1,35 +1,32 @@
-"use client";
-
 import Spinner from "@/app/Components/Spinner";
+import { auth } from "@/app/lib/auth";
+import { headers } from "next/headers";
 import Image from "next/image";
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
 
-const TutorDetailsPage = () => {
-  const { id } = useParams();
+const TutorDetailsPage = async ({ params }) => {
+  const { id } = await params;
 
-  const [loading, setLoading] = useState(true);
-  const [tutor, setTutor] = useState(null);
+  const {token} = await auth.api.getToken({
+    headers: await headers() 
+  });
 
-  useEffect(() => {
-    if (!id) return;
 
-    const fetchTutor = async () => {
-      const res = await fetch(`http://localhost:5000/tutors/${id}`);
-      const data = await res.json();
+  console.log(token);
+  
 
-      setTutor(data);
-      setLoading(false);
-    };
 
-    fetchTutor();
-  }, [id]);
 
-  if (loading) {
-    return (
-      <Spinner/>
-    );
+
+
+  const res = await fetch(`http://localhost:5000/tutors/${id}`, {
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    return <Spinner />;
   }
+
+  const tutor = await res.json();
 
 
   return (

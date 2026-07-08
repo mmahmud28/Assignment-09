@@ -1,5 +1,6 @@
 import { headers } from 'next/headers';
 import { NextResponse } from 'next/server'
+import { auth } from './app/lib/auth';
 
 // This function can be marked `async` if using `await` inside
 export async function proxy(request) {
@@ -13,5 +14,5 @@ if (!auth.api.session) {
 }
 
 export const config = {
-    matcher: ["/tutors/:id", "/tutors/:id/*", "/dashboard/:path*"]
+    matcher: ["/dashboard/:path"]
 }
