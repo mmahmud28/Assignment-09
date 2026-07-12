@@ -82,13 +82,13 @@ const Navbar = () => {
                       <div className="divider my-1" />
 
                       <li>
-                        <Link href="/Login" className="btn btn-outline btn-primary">
+                        <Link href="/login" className="btn btn-outline btn-primary">
                           Login
                         </Link>
                       </li>
 
                       <li>
-                        <Link href="/Registration" className="btn btn-primary text-white">
+                        <Link href="/registration" className="btn btn-primary text-white">
                           Register
                         </Link>
                       </li>
@@ -195,14 +195,14 @@ const Navbar = () => {
             ) : (
               <div className="hidden items-center gap-2 md:flex">
                 <Button className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg shadow-primary/30 hover:shadow-xl">
-                  <Link href="/Login" className="font-bold text-white">
+                  <Link href="/login" className="font-bold text-white">
                     Login
                   </Link>
                 </Button>
 
                 <Button className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg shadow-primary/30 hover:shadow-xl">
                   <Link
-                    href="/Registration"
+                    href="/registration"
                     className="font-bold text-white"
                   >
                     Registration

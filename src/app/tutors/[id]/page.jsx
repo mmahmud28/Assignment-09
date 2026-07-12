@@ -20,6 +20,9 @@ const TutorDetailsPage = async ({ params }) => {
 
   const res = await fetch(`http://localhost:5000/tutors/${id}`, {
     cache: "no-store",
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
   });
 
   if (!res.ok) {
