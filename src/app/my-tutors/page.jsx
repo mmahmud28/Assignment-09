@@ -9,7 +9,7 @@ const MyTutorPage = () => {
 
     useEffect(() => {
 
-       fetch("http://localhost:5000/myBookings?email=student@gmail.com")
+       fetch("http://localhost:5000/myBookings?email=test2@gmail.com")
             .then((res) => {
                 if (!res.ok) {
                     throw new Error("Failed to fetch bookings");
