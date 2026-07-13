@@ -1,28 +1,52 @@
-"use client"
-import React from 'react';
-import ProfileItem from '../Components/ProfileItem';
-import Spinner from '../Components/Spinner';
+"use client";
+
+import React, { useEffect, useState } from "react";
+import ProfileItem from "../Components/ProfileItem";
+import Spinner from "../Components/Spinner";
 
 const ProfilePage = () => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    const [user, setUser] = React.useState(null);
-    const [loading, setLoading] = React.useState(true);
+  useEffect(() => {
+    const email = localStorage.getItem("userEmail");
 
-    React.useEffect(() => {
-        fetch("http://localhost:5000/users?email=mehjabin.akter@gmail.com")
-            .then(response => response.json())
-            .then(data => {
-                setUser(data); // ✅ data is an object
-                setLoading(false);
-            });
-    }, []);
-
-    if (loading) {
-        return <Spinner />;
+    if (!email) {
+      setLoading(false);
+      return;
     }
 
-    console.log("ddddd",user);
-    
+    fetch(`http://localhost:5000/users?email=${email}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch user");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setUser(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return <Spinner />;
+  }
+
+  if (!user) {
+    return (
+      <div className="py-10 text-center">
+        <h2 className="text-xl font-semibold">User not found</h2>
+      </div>
+    );
+  }
+
+  console.log("User:", user);
 
     return (
         <div>

@@ -12,6 +12,9 @@ const LoginPage = () => {
     const formData = new FormData(e.target);
     const loginData = Object.fromEntries(formData.entries());
 
+      localStorage.setItem("userEmail", loginData.email);
+
+
     console.log(loginData); // এখানে email/password আছে কিনা দেখুন
 
     const { data, error } = await signIn.email({

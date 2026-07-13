@@ -9,7 +9,10 @@ const MyBookedSessionsPage = () => {
 
 
   useEffect(() => {
-    fetch("http://localhost:5000/myBookings?email=student@gmail.com")
+
+    const email = localStorage.getItem("userEmail");
+    
+    fetch(`http://localhost:5000/myBookings?email=${email}`)
       .then((res) => {
         if (!res.ok) {
           throw new Error("Failed to fetch bookings");
@@ -33,6 +36,8 @@ const MyBookedSessionsPage = () => {
     );
   }
 
+
+
   const studentName = booking.length > 0 ? booking[0].student.name : "";
   const totalBookings = booking.length;
   const confirmedBookings = booking.filter((item) => item.bookingStatus === "Confirmed").length;
@@ -40,8 +45,34 @@ const MyBookedSessionsPage = () => {
     (item) => item.bookingStatus === "Pending"
   ).length;
 
-  console.log(booking);
 
+  if (totalBookings === 0) {
+    return (
+      <section className="relative overflow-hidden bg-gradient-to-b from-slate-50 via-indigo-50/40 to-white px-4 py-12">
+        <div className="mx-auto mt-10 max-w-4xl rounded-[2rem] border border-dashed border-indigo-200 bg-white/80 p-10 text-center shadow-xl backdrop-blur-xl">
+          <div className="mx-auto grid h-20 w-20 place-items-center rounded-full bg-indigo-100 text-4xl">
+            📭
+          </div>
+
+          <h3 className="mt-6 text-2xl font-black text-slate-900">
+            No booked sessions found
+          </h3>
+
+          <p className="mx-auto mt-3 max-w-md text-sm leading-7 text-slate-500">
+            You have not booked any tutor session yet. Explore tutors and book
+            your first learning session today.
+          </p>
+
+          <Link
+            href="/tutors"
+            className="mt-6 inline-flex rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 px-7 py-3 text-sm font-black text-white shadow-lg"
+          >
+            Find Tutors
+          </Link>
+        </div>
+      </section>
+    );
+  }
 
 
   return (
@@ -183,8 +214,8 @@ const MyBookedSessionsPage = () => {
                     <td className="px-6 py-5">
                       <span
                         className={`rounded-full px-4 py-2 text-xs font-black ${item.status === "Confirmed"
-                            ? "bg-green-100 text-green-700"
-                            : "bg-yellow-100 text-yellow-700"
+                          ? "bg-green-100 text-green-700"
+                          : "bg-yellow-100 text-yellow-700"
                           }`}
                       >
                         {item.bookingStatus}
@@ -207,30 +238,12 @@ const MyBookedSessionsPage = () => {
 
 
 
-        {/* Empty State UI Design */}
-        <div className="mt-10 rounded-[2rem] border border-dashed border-indigo-200 bg-white/80 p-10 text-center shadow-xl backdrop-blur-xl">
-          <div className="mx-auto grid h-20 w-20 place-items-center rounded-full bg-indigo-100 text-4xl">
-            📭
-          </div>
 
-          <h3 className="mt-6 text-2xl font-black text-slate-900">
-            No booked sessions found
-          </h3>
 
-          <p className="mx-auto mt-3 max-w-md text-sm leading-7 text-slate-500">
-            You have not booked any tutor session yet. Explore tutors and book
-            your first learning session today.
-          </p>
 
-          <Link
-            href="/tutors"
-            className="mt-6 inline-flex rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 px-7 py-3 text-sm font-black text-white shadow-lg shadow-indigo-500/30 transition hover:-translate-y-0.5"
-          >
-            Find Tutors
-          </Link>
-        </div>
       </div>
     </section>
+
   );
 };
 

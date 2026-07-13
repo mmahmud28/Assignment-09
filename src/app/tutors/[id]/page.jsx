@@ -6,16 +6,32 @@ import Image from "next/image";
 const TutorDetailsPage = async ({ params }) => {
   const { id } = await params;
 
-  const {token} = await auth.api.getToken({
-    headers: await headers() 
+  const { token } = await auth.api.getToken({
+    headers: await headers()
   });
 
 
   console.log(token);
-  
 
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
+  const email = session?.user?.email;
+  const proRes = await fetch(`http://localhost:5000/users?email=${email}`, {
+    cache: "no-store",
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
 
+  if (!proRes.ok) {
+    return <Spinner />;
+  }
+
+  const user = await proRes.json();
+
+  console.log("User:12:", user);
 
 
   const res = await fetch(`http://localhost:5000/tutors/${id}`, {
@@ -29,7 +45,7 @@ const TutorDetailsPage = async ({ params }) => {
     return <Spinner />;
   }
 
-  const tutor = await res.json();
+  const tutor = await res.json(); // tu data add
 
 
   return (
@@ -310,24 +326,10 @@ const TutorDetailsPage = async ({ params }) => {
                     <label className="mb-2 block text-sm font-bold text-slate-700">
                       Student Name
                     </label>
-                    <input
-                      type="text"
-                      placeholder="Enter student name"
-                      className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 py-3 text-sm font-medium outline-none transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-100"
-                    />
-                  </div>
-
-                  {/* Phone */}
-                  <div>
-                    <label className="mb-2 block text-sm font-bold text-slate-700">
-                      Phone
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Enter phone number"
-                      className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 py-3 text-sm font-medium outline-none transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-100"
-                    />
-                  </div>
+                    <h4 className="rounded-2xl border border-slate-200 bg-slate-100 px-5 py-3 text-sm font-bold text-slate-500 outline-none">
+                      {user?.name}
+                    </h4>
+                  </div>                                   
 
                   {/* Tutor ID */}
                   <div>
@@ -360,12 +362,9 @@ const TutorDetailsPage = async ({ params }) => {
                     <label className="mb-2 block text-sm font-bold text-slate-700">
                       Student Email
                     </label>
-                    <input
-                      type="email"
-                      value="student@gmail.com"
-                      readOnly
-                      className="w-full rounded-2xl border border-slate-200 bg-slate-100 px-5 py-3 text-sm font-bold text-slate-500 outline-none"
-                    />
+                    <h4 className="rounded-2xl border border-slate-200 bg-slate-100 px-5 py-3 text-sm font-bold text-slate-500 outline-none">
+                      {user?.email}
+                    </h4>
                   </div>
 
                   {/* Book Status */}

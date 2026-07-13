@@ -7,9 +7,17 @@ const MyTutorPage = () => {
     const [booking, setBooking] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
 
-    useEffect(() => {
+      
 
-       fetch("http://localhost:5000/myBookings?email=test2@gmail.com")
+    useEffect(() => {
+        const email = localStorage.getItem("userEmail");
+
+        if (!email) {
+            setLoading(false);
+            return;
+        }
+
+        fetch(`http://localhost:5000/myBookings?email=${email}`)
             .then((res) => {
                 if (!res.ok) {
                     throw new Error("Failed to fetch bookings");
@@ -17,7 +25,6 @@ const MyTutorPage = () => {
                 return res.json();
             })
             .then((data) => {
-                console.log("Response Data:", data);
                 setBooking(data);
                 setLoading(false);
             })
@@ -26,8 +33,6 @@ const MyTutorPage = () => {
                 setLoading(false);
             });
     });
-
-    console.log("Booking State:", booking); // State আপডেট হওয়ার পর লগ হবে
 
     return (
       <div className="bg-white/90 p-5 backdrop-blur">

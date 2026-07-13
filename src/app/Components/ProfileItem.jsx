@@ -125,25 +125,9 @@ const ProfileItem = ({ user }) => {
                   <h4 className="mt-2 break-all text-lg font-black text-slate-900">
                     {user.email}
                   </h4>
-                </div>
+                </div>               
 
-                <div className="rounded-3xl border border-slate-100 bg-cyan-50 p-6">
-                  <p className="text-xs font-black uppercase tracking-wide text-cyan-500">
-                    Login Provider
-                  </p>
-                  <h4 className="mt-2 text-lg font-black capitalize text-slate-900">
-                    {user.provider}
-                  </h4>
-                </div>
-
-                <div className="rounded-3xl border border-slate-100 bg-pink-50 p-6">
-                  <p className="text-xs font-black uppercase tracking-wide text-pink-500">
-                    Account Role
-                  </p>
-                  <h4 className="mt-2 text-lg font-black capitalize text-slate-900">
-                    {user.role}
-                  </h4>
-                </div>
+                
 
                 <div className="rounded-3xl border border-slate-100 bg-green-50 p-6">
                   <p className="text-xs font-black uppercase tracking-wide text-green-500">
@@ -172,7 +156,7 @@ const ProfileItem = ({ user }) => {
                         Joined Date
                       </p>
                       <p className="mt-1 font-black text-slate-900">
-                        {user.joinedDate}
+                        {user.createdAt}
                       </p>
                     </div>
                   </div>
@@ -187,7 +171,7 @@ const ProfileItem = ({ user }) => {
                         Last Login
                       </p>
                       <p className="mt-1 font-black text-slate-900">
-                        {user.lastLoginDate}
+                        {user.updatedAt}
                       </p>
                     </div>
                   </div>
