@@ -24,6 +24,7 @@ const Page = () => {
                 setLoading(false);
             });
     }, []);
+    
 
     return (
         <section className="py-20 px-5 md:px-10 lg:px-16 bg-gray-50">

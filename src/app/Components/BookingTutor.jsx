@@ -7,6 +7,9 @@ const BookingTutor = ({ booking }) => {
 
   const item = booking;
 
+  console.log("data", item);
+
+
   const bookingStatusStyle = {
     pending: "bg-yellow-100 text-yellow-700 border-yellow-200",
     confirmed: "bg-green-100 text-green-700 border-green-200",
@@ -133,47 +136,6 @@ const BookingTutor = ({ booking }) => {
                 </div>
               </div>
             </div>
-
-            {/* Student */}
-            {/* <div className="rounded-[2rem] border border-purple-100 bg-purple-50/70 p-5">
-              <div className="flex items-start gap-4">
-                <Image
-                  src={
-                    booking?.student?.photo ||
-                    "https://randomuser.me/api/portraits/men/11.jpg"
-                  }
-                  alt={booking?.student?.name || "Student"}
-                  width={80}
-                  height={80}
-                  className="h-20 w-20 shrink-0 rounded-3xl border-4 border-white object-cover shadow-lg"
-                />
-
-                <div>
-                  <p className="text-xs font-black uppercase text-purple-500">
-                    Student
-                  </p>
-
-                  <h3 className="mt-1 text-xl font-black text-slate-900">
-                    {booking?.student?.name || "RD Plus"}
-                  </h3>
-
-                  <p className="mt-2 break-all text-sm font-medium text-slate-500">
-                    {booking?.student?.email || "student@gmail.com"}
-                  </p>
-
-                  <p className="mt-1 text-sm font-bold text-purple-600">
-                    {booking?.student?.phone || "01850020101"}
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-5 rounded-2xl bg-white p-4">
-                <p className="text-xs font-black text-slate-400">Student ID</p>
-                <h4 className="mt-1 break-all font-black text-slate-900">
-                  {booking?.student?.studentId || "student001"}
-                </h4>
-              </div>
-            </div> */}
           </div>
 
           {/* Session Details */}
@@ -338,7 +300,7 @@ const BookingTutor = ({ booking }) => {
 
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link
-                href={`/tutors/${booking?.tutor?.tutorMongoId || "demo-id"}`}
+                href={`/tutors/${item?.tutor?._id || "demo-id"}`}
                 className="rounded-full border border-indigo-200 bg-indigo-50 px-6 py-3 text-center text-sm font-black text-indigo-600 transition hover:bg-indigo-600 hover:text-white"
               >
                 View Tutor
@@ -346,7 +308,7 @@ const BookingTutor = ({ booking }) => {
 
               <button
                 type="button"
-                className="rounded-full bg-red-50 px-6 py-3 text-sm font-black text-red-600 transition hover:bg-red-500 hover:text-white"
+                className="rounded-full bg-red-50 px-6 py-3 text-sm font-black text-red-600 transition hover:bg-red-100 hover:text-white"
               >
                 Cancel Session
               </button>
@@ -357,7 +319,7 @@ const BookingTutor = ({ booking }) => {
 
     </div>
   );
-  
+
 };
 
 export default BookingTutor;

@@ -1,3 +1,4 @@
+import BookingModal from "@/app/Components/BookingModal";
 import Spinner from "@/app/Components/Spinner";
 import { auth } from "@/app/lib/auth";
 import { headers } from "next/headers";
@@ -46,6 +47,39 @@ const TutorDetailsPage = async ({ params }) => {
   }
 
   const tutor = await res.json(); // tu data add
+
+  console.log(tutor);
+
+
+  const bookingData = {
+    sessionToken: `BK-${Date.now()}`,
+    bookingStatus: "confirmed",
+    bookingDate: new Date().toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    }),
+    bookingTime: new Date().toLocaleTimeString(),
+
+    student: {
+      name: user.name,
+      email: user.email,
+    },
+
+    tutor: {
+      _id: tutor._id,
+      name: tutor.tutorName,
+      photo: tutor.photo,
+      subject: tutor.subject,
+      hourlyFee: tutor.hourlyFee,
+    },
+
+    session: {
+      date: tutor.sessionStartDate,
+      time: tutor.availableTime,
+    },
+  };
+
 
 
   return (
@@ -159,7 +193,7 @@ const TutorDetailsPage = async ({ params }) => {
                       Available Slot
                     </p>
                     <h4 className="mt-2 text-xl font-black text-slate-900">
-                      08 Slots
+                      {tutor.totalSlot}
                     </h4>
                     <p className="mt-2 text-sm text-slate-500">
                       Slot will decrease after booking.
@@ -329,19 +363,16 @@ const TutorDetailsPage = async ({ params }) => {
                     <h4 className="rounded-2xl border border-slate-200 bg-slate-100 px-5 py-3 text-sm font-bold text-slate-500 outline-none">
                       {user?.name}
                     </h4>
-                  </div>                                   
+                  </div>
 
                   {/* Tutor ID */}
                   <div>
                     <label className="mb-2 block text-sm font-bold text-slate-700">
                       Tutor ID
                     </label>
-                    <input
-                      type="text"
-                      value="TUTOR-1025"
-                      readOnly
-                      className="w-full rounded-2xl border border-slate-200 bg-slate-100 px-5 py-3 text-sm font-bold text-slate-500 outline-none"
-                    />
+                    <h4 className="rounded-2xl border border-slate-200 bg-slate-100 px-5 py-3 text-sm font-bold text-slate-500 outline-none">
+                      {tutor._id}
+                    </h4>
                   </div>
 
                   {/* Tutor Name */}
@@ -349,12 +380,9 @@ const TutorDetailsPage = async ({ params }) => {
                     <label className="mb-2 block text-sm font-bold text-slate-700">
                       Tutor Name
                     </label>
-                    <input
-                      type="text"
-                      value="Mr. Rahim Ahmed"
-                      readOnly
-                      className="w-full rounded-2xl border border-slate-200 bg-slate-100 px-5 py-3 text-sm font-bold text-slate-500 outline-none"
-                    />
+                    <h4 className="rounded-2xl border border-slate-200 bg-slate-100 px-5 py-3 text-sm font-bold text-slate-500 outline-none">
+                      {tutor.tutorName}
+                    </h4>
                   </div>
 
                   {/* Student Email */}
@@ -367,18 +395,6 @@ const TutorDetailsPage = async ({ params }) => {
                     </h4>
                   </div>
 
-                  {/* Book Status */}
-                  <div>
-                    <label className="mb-2 block text-sm font-bold text-slate-700">
-                      Book Status
-                    </label>
-                    <input
-                      type="text"
-                      value="Pending"
-                      readOnly
-                      className="w-full rounded-2xl border border-slate-200 bg-slate-100 px-5 py-3 text-sm font-bold text-slate-500 outline-none"
-                    />
-                  </div>
                 </div>
 
                 {/* Slot Info */}
@@ -388,7 +404,7 @@ const TutorDetailsPage = async ({ params }) => {
                       Current Slots
                     </p>
                     <h4 className="mt-1 text-xl font-black text-slate-900">
-                      08
+                      {tutor.totalSlot}
                     </h4>
                   </div>
 
@@ -397,7 +413,7 @@ const TutorDetailsPage = async ({ params }) => {
                       Session Date
                     </p>
                     <h4 className="mt-1 text-xl font-black text-slate-900">
-                      2026-07-01
+                      {tutor.sessionStartDate}
                     </h4>
                   </div>
 
@@ -413,12 +429,11 @@ const TutorDetailsPage = async ({ params }) => {
 
                 {/* Buttons */}
                 <div className="flex flex-col gap-4 pt-3 sm:flex-row">
-                  <button
-                    type="button"
-                    className="w-full rounded-2xl bg-gradient-to-r from-indigo-500 to-purple-500 px-8 py-3 text-sm font-black text-white shadow-lg shadow-indigo-500/30 transition hover:-translate-y-0.5 sm:w-auto"
-                  >
-                    Confirm Booking
-                  </button>
+
+                  <BookingModal
+                     token={token}
+                    bookingData={bookingData}
+                  />
 
                   <label
                     htmlFor="book-session-modal"
@@ -436,7 +451,10 @@ const TutorDetailsPage = async ({ params }) => {
           </label>
         </div>
       </div>
+
+
     </section>
+
   );
 };
 
