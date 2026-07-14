@@ -1,8 +1,10 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
 const BookingModal = ({ bookingData, token }) => {
+     const router = useRouter();
 
     const handleBooking = async () => {
         try {
@@ -21,6 +23,7 @@ const BookingModal = ({ bookingData, token }) => {
                 toast.success("Booking completed successfully!");
 
                 document.getElementById("book-session-modal").checked = false;
+                router.refresh();
             } else {
                 toast.error("Booking failed!");
             }

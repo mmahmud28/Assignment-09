@@ -177,7 +177,7 @@ const MyBookedSessionsPage = () => {
               </thead>
 
               <tbody>
-                {booking.map((item, index) => (
+                {booking.map((item, index) => (            
                   <tr
                     key={item._id}
                     className="border-b border-slate-100 transition hover:bg-indigo-50/40"
@@ -190,10 +190,12 @@ const MyBookedSessionsPage = () => {
                       <div className="flex items-center gap-3">
                         <div className="grid h-11 w-11 place-items-center rounded-2xl bg-indigo-100 text-lg">
                           <Image
-// im age add to url
-
-
-/>
+                          width={40}
+                          height={40}
+                          src={item.tutor.photo}
+                          alt={item.tutor.name}
+                          className="h-10 w-10 rounded-full object-cover"                          
+                          />
                         </div>
 
                         <div>
