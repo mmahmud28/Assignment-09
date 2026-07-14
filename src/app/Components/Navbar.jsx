@@ -60,7 +60,7 @@ const Navbar = () => {
 
               {
                 session && (
-                  <ul>
+                  <>
                     <li>
                       <Link href="/add-tutor" className="font-semibold">
                         Add Tutor
@@ -77,7 +77,7 @@ const Navbar = () => {
                       </Link>
                     </li>
 
-                  </ul>
+                  </>
                 )
               }
 
@@ -162,7 +162,7 @@ const Navbar = () => {
 
             {
               session && (
-                <ul>
+                <>
                   <li>
                     <Link
                       href="/add-tutor"
@@ -189,7 +189,7 @@ const Navbar = () => {
                       My Booked Sessions
                     </Link>
                   </li>
-                </ul>
+                </>
 
               )
             }

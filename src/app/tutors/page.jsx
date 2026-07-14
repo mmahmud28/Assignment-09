@@ -24,7 +24,23 @@ const Page = () => {
                 setLoading(false);
             });
     }, []);
-    
+
+    if (loading) {
+        return (
+            <div className="text-center">
+                <Spinner />
+            </div>
+        );
+    }
+
+    if (tutors.length === 0) {
+        return (
+            <p className="mt-4 p-10 text-3xl text-white text-center text-gray-500">
+                No Available Tutor
+            </p>
+        );
+    }
+
 
     return (
         <section className="py-20 px-5 md:px-10 lg:px-16 bg-gray-50">
@@ -152,7 +168,7 @@ const Page = () => {
 
                 {loading ? (
                     <div className="text-center">
-                        <Spinner/>
+                        <Spinner />
                     </div>
                 ) : (
                     <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
