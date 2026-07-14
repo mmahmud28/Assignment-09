@@ -57,21 +57,29 @@ const Navbar = () => {
                   Tutors
                 </Link>
               </li>
-              <li>
-                <Link href="/add-tutor" className="font-semibold">
-                  Add Tutor
-                </Link>
-              </li>
-              <li>
-                <Link href="/my-tutors" className="font-semibold">
-                  My Tutors
-                </Link>
-              </li>
-              <li>
-                <Link href="/my-booked-sessions" className="font-semibold">
-                  My Booked Sessions
-                </Link>
-              </li>
+
+              {
+                session && (
+                  <ul>
+                    <li>
+                      <Link href="/add-tutor" className="font-semibold">
+                        Add Tutor
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/my-tutors" className="font-semibold">
+                        My Tutors
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/my-booked-sessions" className="font-semibold">
+                        My Booked Sessions
+                      </Link>
+                    </li>
+
+                  </ul>
+                )
+              }
 
 
 
@@ -154,34 +162,38 @@ const Navbar = () => {
 
             {
               session && (
-              <li>
-              <Link
-                href="/add-tutor"
-                className="rounded-full px-4 font-semibold text-slate-700 hover:bg-white hover:text-primary"
-              >
-                Add Tutor
-              </Link>
-            </li>
+                <ul>
+                  <li>
+                    <Link
+                      href="/add-tutor"
+                      className="rounded-full px-4 font-semibold text-slate-700 hover:bg-white hover:text-primary"
+                    >
+                      Add Tutor
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link
+                      href="/my-tutors"
+                      className="rounded-full px-4 font-semibold text-slate-700 hover:bg-white hover:text-primary"
+                    >
+                      My Tutors
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link
+                      href="/my-booked-sessions"
+                      className="rounded-full px-4 font-semibold text-slate-700 hover:bg-white hover:text-primary"
+                    >
+                      My Booked Sessions
+                    </Link>
+                  </li>
+                </ul>
+
               )
             }
 
-            <li>
-              <Link
-                href="/my-tutors"
-                className="rounded-full px-4 font-semibold text-slate-700 hover:bg-white hover:text-primary"
-              >
-                My Tutors
-              </Link>
-            </li>
-
-            <li>
-              <Link
-                href="/my-booked-sessions"
-                className="rounded-full px-4 font-semibold text-slate-700 hover:bg-white hover:text-primary"
-              >
-                My Booked Sessions
-              </Link>
-            </li>
           </ul>
         </div>
 
