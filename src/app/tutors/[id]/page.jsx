@@ -3,53 +3,87 @@ import Spinner from "@/app/Components/Spinner";
 import { auth } from "@/app/lib/auth";
 import { headers } from "next/headers";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 
 const TutorDetailsPage = async ({ params }) => {
   const { id } = await params;
 
-  const { token } = await auth.api.getToken({
-    headers: await headers()
-  });
+  let token;
+  let session;
+  let user;
+  let tutor;
 
+  try {
+    // Get Token
+    const tokenResult = await auth.api.getToken({
+      headers: await headers(),
+    });
 
-  console.log(token);
+    token = tokenResult?.token;
 
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  const email = session?.user?.email;
-  const proRes = await fetch(`http://localhost:5000/users?email=${email}`, {
-    cache: "no-store",
-    headers: {
-      Authorization: `Bearer ${token}`
+    if (!token) {
+      redirect("/login");
     }
-  });
 
-  if (!proRes.ok) {
-    return <Spinner />;
-  }
+    // Get Session
+    session = await auth.api.getSession({
+      headers: await headers(),
+    });
 
-  const user = await proRes.json();
-
-  console.log("User:12:", user);
-
-
-  const res = await fetch(`http://localhost:5000/tutors/${id}`, {
-    cache: "no-store",
-    headers: {
-      Authorization: `Bearer ${token}`
+    if (!session) {
+      redirect("/login");
     }
-  });
 
-  if (!res.ok) {
-    return <Spinner />;
+    const email = session.user.email;
+
+    // User Information
+    const proRes = await fetch(
+      `http://localhost:5000/users?email=${email}`,
+      {
+        cache: "no-store",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (proRes.status === 401) {
+      redirect("/login");
+    }
+
+    if (!proRes.ok) {
+      throw new Error("Failed to fetch user");
+    }
+
+    user = await proRes.json();
+
+    // Tutor Information
+    const tutorRes = await fetch(
+      `http://localhost:5000/tutors/${id}`,
+      {
+        cache: "no-store",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (tutorRes.status === 401) {
+      redirect("/login");
+    }
+
+    if (!tutorRes.ok) {
+      throw new Error("Failed to fetch tutor");
+    }
+
+    tutor = await tutorRes.json();
+
+  } catch (error) {
+    console.error("Tutor Details Error:", error);
+
+    // যদি Unauthorized হয় তাহলে Login এ পাঠাবে
+    redirect("/login");
   }
-
-  const tutor = await res.json(); // tu data add
-
-  console.log(tutor);
-
 
   const bookingData = {
     sessionToken: `BK-${Date.now()}`,

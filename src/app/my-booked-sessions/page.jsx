@@ -1,27 +1,52 @@
 "use client";
-import React, { useEffect } from "react";
-import Link from "next/link";
+
+import React, { useEffect, useState } from "react";
 import Spinner from "../Components/Spinner";
+import Link from "next/link";
 import Image from "next/image";
+import toast from "react-hot-toast";
 
 const MyBookedSessionsPage = () => {
-  const [booking, setBooking] = React.useState([]);
-  const [loading, setLoading] = React.useState(true);
+  const [booking, setBooking] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [token, setToken] = useState("");
 
-
+  // Get Better Auth Token
   useEffect(() => {
+    const getToken = async () => {
+      try {
+        const res = await fetch("/api/auth/token");
 
+        if (!res.ok) return;
+
+        const data = await res.json();
+        setToken(data.token);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getToken();
+  }, []);
+
+  // Get Bookings
+  useEffect(() => {
     const email = localStorage.getItem("userEmail");
-    
+
+    if (!email) {
+      setLoading(false);
+      return;
+    }
+
     fetch(`http://localhost:5000/myBookings?email=${email}`)
       .then((res) => {
         if (!res.ok) {
           throw new Error("Failed to fetch bookings");
         }
+
         return res.json();
       })
       .then((data) => {
-        console.log(data);
         setBooking(data);
         setLoading(false);
       })
@@ -31,11 +56,46 @@ const MyBookedSessionsPage = () => {
       });
   }, []);
 
+  console.log("Token:", token);
+
   if (loading) {
-    return (
-      <Spinner />
-    );
+    return <Spinner />;
   }
+
+
+  const handleCancel = async (id) => {
+    if (!confirm("Are you sure you want to cancel this booking?")) return;
+
+
+    console.log(token);
+
+
+    try {
+      const res = await fetch(
+        `http://localhost:5000/booking_Tutor/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const result = await res.json();
+
+      if (res.ok) {
+        setBooking((prev) =>
+          prev.filter((item) => item._id !== id)
+        );
+
+        toast.success("Booking cancelled successfully");
+      } else {
+        toast.error(result.message);
+      }
+    } catch (err) {
+      toast.error("Something went wrong");
+    }
+  };
 
 
 
@@ -177,7 +237,7 @@ const MyBookedSessionsPage = () => {
               </thead>
 
               <tbody>
-                {booking.map((item, index) => (            
+                {booking.map((item, index) => (
                   <tr
                     key={item._id}
                     className="border-b border-slate-100 transition hover:bg-indigo-50/40"
@@ -190,11 +250,11 @@ const MyBookedSessionsPage = () => {
                       <div className="flex items-center gap-3">
                         <div className="grid h-11 w-11 place-items-center rounded-2xl bg-indigo-100 text-lg">
                           <Image
-                          width={40}
-                          height={40}
-                          src={item.tutor.photo}
-                          alt={item.tutor.name}
-                          className="h-10 w-10 rounded-full object-cover"                          
+                            width={40}
+                            height={40}
+                            src={item.tutor.photo}
+                            alt={item.tutor.name}
+                            className="h-10 w-10 rounded-full object-cover"
                           />
                         </div>
 
@@ -231,6 +291,7 @@ const MyBookedSessionsPage = () => {
 
                     <td className="px-6 py-5 text-right">
                       <button
+                        onClick={() => handleCancel(item._id)}
                         className="rounded-full bg-red-50 px-5 py-2 text-sm font-black text-red-600 transition hover:bg-red-500 hover:text-white"
                       >
                         Cancel

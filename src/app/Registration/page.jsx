@@ -195,7 +195,7 @@ const Page = () => {
               <p className="mt-7 text-center text-sm font-medium text-slate-400">
                 Already have an account?{" "}
                 <Link
-                  href="/Login"
+                  href="/login"
                   className="font-black text-cyan-300 hover:text-cyan-200"
                 >
                   Login
