@@ -8,56 +8,81 @@ const Page = () => {
     const [tutors, setTutors] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    const [keyword, setKeyword] = useState("");
     const [searchText, setSearchText] = useState("");
+
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
 
     useEffect(() => {
-        fetch("http://localhost:5000/tutors")
-            .then((res) => res.json())
-            .then((data) => {
+        const fetchTutors = async () => {
+            try {
+                const res = await fetch("http://localhost:5000/tutors");
+                const data = await res.json();
                 setTutors(data);
-                setLoading(false);
-            })
-            .catch((error) => {
+            } catch (error) {
                 console.error(error);
+            } finally {
                 setLoading(false);
-            });
+            }
+        };
+
+        fetchTutors();
     }, []);
+
+    const filteredTutors = tutors.filter((tutor) => {
+        const search = searchText.toLowerCase().trim();
+
+        const matchSearch =
+            tutor.tutorName?.toLowerCase().includes(search) ||
+            tutor.subject?.toLowerCase().includes(search) ||
+            tutor.location?.toLowerCase().includes(search) ||
+            tutor.teachingMode?.toLowerCase().includes(search);
+
+        // NOTE:
+        // যদি createdAt বা availableDate না থাকে,
+        // তাহলে এই Date Filter কাজ করবে না।
+
+        let matchDate = true;
+
+        if (startDate && endDate && tutor.createdAt) {
+            const tutorDate = new Date(tutor.createdAt);
+            matchDate =
+                tutorDate >= new Date(startDate) &&
+                tutorDate <= new Date(endDate);
+        }
+
+        return matchSearch && matchDate;
+    });
 
     if (loading) {
         return (
-            <div className="text-center">
+            <div className="flex justify-center py-20">
                 <Spinner />
             </div>
         );
     }
 
-    if (tutors.length === 0) {
-        return (
-            <p className="mt-4 p-10 text-3xl text-white text-center text-gray-500">
-                No Available Tutor
-            </p>
-        );
-    }
-
-
     return (
-        <section className="py-20 px-5 md:px-10 lg:px-16 bg-gray-50">
-            <div className="max-w-7xl mx-auto">
-                <div className="text-center mb-14">
+        <section className="bg-gray-50 py-20 px-5 md:px-10 lg:px-16">
+            <div className="mx-auto max-w-7xl">
+
+                {/* Heading */}
+                <div className="mb-14 text-center">
                     <h2 className="text-4xl md:text-5xl font-bold text-gray-800">
                         Available Tutors
                     </h2>
 
-                    <p className="mt-4 text-gray-500 max-w-2xl mx-auto">
-                        Discover experienced tutors ready to help you achieve your academic
-                        goals.
+                    <p className="mt-4 max-w-2xl mx-auto text-gray-500">
+                        Discover experienced tutors ready to help you achieve your
+                        academic goals.
                     </p>
                 </div>
 
+                {/* Search Box */}
                 <div className="mb-12 rounded-3xl border border-gray-200 bg-white p-6 shadow-lg">
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-end">
+
+                    <div className="grid grid-cols-1 gap-5 items-end lg:grid-cols-12">
 
                         {/* Search */}
                         <div className="lg:col-span-6">
@@ -68,9 +93,9 @@ const Page = () => {
                             <input
                                 type="text"
                                 placeholder="Search by Tutor Name, Subject, Location or Teaching Mode..."
-                                value={searchText}
-                                onChange={(e) => setSearchText(e.target.value)}
-                                className="input input-bordered w-full rounded-xl bg-white text-gray-900 placeholder:text-gray-400 border-gray-300"
+                                value={keyword}
+                                onChange={(e) => setKeyword(e.target.value)}
+                                className="input input-bordered w-full rounded-xl bg-white text-gray-900"
                             />
 
                             <p className="mt-2 text-xs text-gray-500">
@@ -88,7 +113,7 @@ const Page = () => {
                                 type="date"
                                 value={startDate}
                                 onChange={(e) => setStartDate(e.target.value)}
-                                className="input input-bordered w-full rounded-xl bg-white text-gray-900 border-gray-300"
+                                className="input input-bordered w-full rounded-xl bg-white"
                             />
                         </div>
 
@@ -102,21 +127,24 @@ const Page = () => {
                                 type="date"
                                 value={endDate}
                                 onChange={(e) => setEndDate(e.target.value)}
-                                className="input input-bordered w-full rounded-xl bg-white text-gray-900 border-gray-300"
+                                className="input input-bordered w-full rounded-xl bg-white"
                             />
                         </div>
 
                         {/* Buttons */}
-                        <div className="lg:col-span-2 flex gap-3">
+                        <div className="flex gap-3 lg:col-span-2">
+
                             <button
+                                onClick={() => setSearchText(keyword)}
                                 className="btn flex-1 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700"
                             >
                                 Search
                             </button>
 
                             <button
-                                className="btn btn-outline flex-1"
+                                className="btn text-black bg-amber-200 hover:text-white bg-amber-900 btn-outline flex-1"
                                 onClick={() => {
+                                    setKeyword("");
                                     setSearchText("");
                                     setStartDate("");
                                     setEndDate("");
@@ -124,6 +152,7 @@ const Page = () => {
                             >
                                 Reset
                             </button>
+
                         </div>
 
                     </div>
@@ -133,9 +162,11 @@ const Page = () => {
 
                         <p className="text-gray-600">
                             Showing
+
                             <span className="mx-2 rounded-full bg-indigo-100 px-3 py-1 font-bold text-indigo-700">
-                                {tutors.length}
+                                {filteredTutors.length}
                             </span>
+
                             Tutors
                         </p>
 
@@ -166,17 +197,30 @@ const Page = () => {
                     </div>
                 </div>
 
-                {loading ? (
-                    <div className="text-center">
-                        <Spinner />
+                {/* Tutor List */}
+                {filteredTutors.length === 0 ? (
+                    <div className="rounded-2xl bg-white py-20 text-center shadow">
+
+                        <h2 className="text-3xl font-bold text-gray-700">
+                            No Tutor Found 😔
+                        </h2>
+
+                        <p className="mt-3 text-gray-500">
+                            Try another search keyword or reset the filters.
+                        </p>
+
                     </div>
                 ) : (
                     <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                        {tutors.map((tutor) => (
-                            <TutorCard key={tutor._id} tutor={tutor} />
+                        {filteredTutors.map((tutor) => (
+                            <TutorCard
+                                key={tutor._id}
+                                tutor={tutor}
+                            />
                         ))}
                     </div>
                 )}
+
             </div>
         </section>
     );

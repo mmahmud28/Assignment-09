@@ -4,58 +4,61 @@ import Link from "next/link";
 import toast from "react-hot-toast";
 
 
-
-
 const AddTutorPage = () => {
- const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const form = e.target;
 
+    const email = localStorage.getItem("userEmail");
+
     const tutorData = {
-        tutorName: form.tutorName.value,
-        photo: form.photo.value,
-        subject: form.subject.value,
-        availableDays: form.availableDays.value,
-        availableTime: form.availableTime.value,
-        hourlyFee: Number(form.hourlyFee.value),
-        totalSlot: Number(form.totalSlot.value),
-        sessionStartDate: form.sessionStartDate.value,
-        institutionExperience: form.institutionExperience.value,
-        location: form.location.value,
-        teachingMode: form.teachingMode.value,
-        createdAt: new Date().toISOString(),
+      tutorName: form.tutorName.value,
+      photo: form.photo.value,
+      subject: form.subject.value,
+      availableDays: form.availableDays.value,
+      availableTime: form.availableTime.value,
+      hourlyFee: Number(form.hourlyFee.value),
+      totalSlot: Number(form.totalSlot.value),
+      sessionStartDate: form.sessionStartDate.value,
+      institutionExperience: form.institutionExperience.value,
+      location: form.location.value,
+      teachingMode: form.teachingMode.value,
+      createdAt: new Date().toISOString(),
+      createdBy: {       
+        email: email,
+      }
     };
 
     try {
-        const res = await fetch("http://localhost:5000/add-tutors", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(tutorData),
-        });
+      const res = await fetch("http://localhost:5000/add-tutors", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(tutorData),
+      });
 
-        if (!res.ok) {
-            throw new Error("Failed to add tutor");
-        }
+      if (!res.ok) {
+        throw new Error("Failed to add tutor");
+      }
 
-        const result = await res.json();
+      const result = await res.json();
 
-        if (result.insertedId) {
-            toast.success("Tutor Added Successfully");
-            form.reset();
-        } else {
-            toast.error("Failed to Add Tutor");
-        }
+      if (result.insertedId) {
+        toast.success("Tutor Added Successfully");
+        form.reset();
+      } else {
+        toast.error("Failed to Add Tutor");
+      }
 
     } catch (error) {
-        console.log(error);
-        toast.error("Something went wrong");
+      console.log(error);
+      toast.error("Something went wrong");
     }
-};
+  };
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-slate-50 via-indigo-50/40 to-white px-4 py-12">
+    <section className="relative overflow-hidden bg-linear-to-b from-slate-50 via-indigo-50/40 to-white px-4 py-12">
       {/* Background Decoration */}
       <div className="absolute left-10 top-20 h-72 w-72 rounded-full bg-indigo-300/30 blur-[120px]" />
       <div className="absolute bottom-20 right-10 h-72 w-72 rounded-full bg-purple-300/30 blur-[120px]" />
