@@ -91,15 +91,12 @@ const BookingTutor = ({ booking }) => {
             <div className="rounded-[2rem] border border-indigo-100 bg-indigo-50/70 p-5">
               <div className="flex items-start gap-4">
                 <Image
-                  src={
-                    booking?.tutor?.photo ||
-                    "https://randomuser.me/api/portraits/men/1.jpg"
-                  }
-                  alt={booking?.tutor?.name || "Tutor"}
-                  width={80}
-                  height={80}
-                  className="h-20 w-20 shrink-0 rounded-3xl border-4 border-white object-cover shadow-lg"
-                />
+  src={booking?.photo}
+  alt={booking?.tutorName}
+  width={80}
+  height={80}
+  className="h-20 w-20 rounded-3xl border-4 border-white object-cover shadow-lg"
+/>
 
                 <div>
                   <p className="text-xs font-black uppercase text-indigo-500">
@@ -107,15 +104,19 @@ const BookingTutor = ({ booking }) => {
                   </p>
 
                   <h3 className="mt-1 text-xl font-black text-slate-900">
-                    {booking?.tutor?.name || "Mr. Rahim Ahmed"}
-                  </h3>
+  {booking?.tutorName}
+</h3>
 
-                  <p className="mt-1 text-sm font-bold text-indigo-600">
-                    {booking?.tutor?.subject || "Mathematics"} Tutor
-                  </p>
+<p className="mt-1 text-sm font-bold text-indigo-600">
+  {booking?.subject}
+</p>
 
-                  <p className="mt-2 break-all text-sm font-medium text-slate-500">
-                    {booking?.tutor?.email || "tutor@gmail.com"}
+<p className="mt-2 break-all text-sm font-medium text-slate-500">
+  {booking?.createdBy?.email}
+</p>
+
+                  <p className="mt-2 text-sm font-medium text-slate-300">
+                    Created on {new Date(booking?.createdAt).toLocaleDateString()}
                   </p>
                 </div>
               </div>
@@ -124,14 +125,14 @@ const BookingTutor = ({ booking }) => {
                 <div className="rounded-2xl bg-white p-4">
                   <p className="text-xs font-black text-slate-400">Fee</p>
                   <h4 className="mt-1 text-xl font-black text-indigo-600">
-                    ৳{booking?.tutor?.hourlyFee || 500}
+                    ৳{booking.hourlyFee || 500}
                   </h4>
                 </div>
 
                 <div className="rounded-2xl bg-white p-4">
                   <p className="text-xs font-black text-slate-400">Mode</p>
                   <h4 className="mt-1 font-black text-slate-900">
-                    {booking?.tutor?.teachingMode || "Both"}
+                    {booking?.teachingMode}
                   </h4>
                 </div>
               </div>
@@ -159,28 +160,28 @@ const BookingTutor = ({ booking }) => {
               <div className="rounded-2xl bg-white p-4 shadow-sm">
                 <p className="text-xs font-black text-slate-400">Date</p>
                 <h4 className="mt-1 font-black text-slate-900">
-                  {booking?.session?.date || "2026-07-01"}
+                  {booking?.sessionStartDate}
                 </h4>
               </div>
 
               <div className="rounded-2xl bg-white p-4 shadow-sm">
                 <p className="text-xs font-black text-slate-400">Day</p>
                 <h4 className="mt-1 font-black text-slate-900">
-                  {booking?.session?.day || "Sun - Thu"}
+                  {booking?.availableDays}
                 </h4>
               </div>
 
               <div className="rounded-2xl bg-white p-4 shadow-sm">
                 <p className="text-xs font-black text-slate-400">Time</p>
                 <h4 className="mt-1 font-black text-slate-900">
-                  {booking?.session?.time || "5:00 PM - 8:00 PM"}
+                  {booking?.availableTime}
                 </h4>
               </div>
 
               <div className="rounded-2xl bg-white p-4 shadow-sm">
-                <p className="text-xs font-black text-slate-400">Duration</p>
+                <p className="text-xs font-black text-slate-400">Available Slots</p>
                 <h4 className="mt-1 font-black text-slate-900">
-                  {booking?.session?.duration || "1 Hour"}
+                  {booking?.totalSlot}
                 </h4>
               </div>
             </div>
@@ -188,17 +189,17 @@ const BookingTutor = ({ booking }) => {
             <div className="mt-4 grid gap-4 md:grid-cols-2">
               <div className="rounded-2xl bg-white p-4 shadow-sm">
                 <p className="text-xs font-black text-slate-400">
-                  Meeting Type
+                  Teaching Type
                 </p>
                 <h4 className="mt-1 font-black text-slate-900">
-                  {booking?.session?.meetingType || "Online"}
+                  {booking?.teachingMode}
                 </h4>
               </div>
 
               <div className="rounded-2xl bg-white p-4 shadow-sm">
                 <p className="text-xs font-black text-slate-400">Location</p>
                 <h4 className="mt-1 font-black text-slate-900">
-                  {booking?.tutor?.location || "Dhanmondi, Dhaka"}
+                  {booking?.location}
                 </h4>
               </div>
             </div>
@@ -216,16 +217,15 @@ const BookingTutor = ({ booking }) => {
               </p>
 
               <h3 className="mt-1 text-2xl font-black text-slate-900">
-                {booking?.payment?.currency || "BDT"}{" "}
-                {booking?.payment?.amount || 500}
+                BDT {booking?.hourlyFee}
               </h3>
 
               <p className="mt-2 text-sm font-semibold text-slate-500">
-                Method: {booking?.payment?.method || "Not selected"}
+                Per Hour
               </p>
 
-              <p className="mt-1 break-all text-xs font-semibold text-slate-400">
-                TXN: {booking?.payment?.transactionId || "Not paid yet"}
+              <p className="mt-1 text-xs font-semibold text-slate-400">
+                Total Slot : {booking?.totalSlot}
               </p>
             </div>
 
@@ -239,11 +239,11 @@ const BookingTutor = ({ booking }) => {
               </p>
 
               <h3 className="mt-1 text-2xl font-black text-slate-900">
-                {booking?.review?.rating || "No Rating"}
+                {booking?.subject}
               </h3>
 
               <p className="mt-2 text-sm font-semibold text-slate-500">
-                {booking?.review?.comment || "Review not submitted yet."}
+                Subject Category
               </p>
             </div>
 
@@ -300,7 +300,7 @@ const BookingTutor = ({ booking }) => {
 
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link
-                href={`/tutors/${item?.tutor?._id || "demo-id"}`}
+                href={`/tutors/${booking?._id || "demo-id"}`}
                 className="rounded-full border border-indigo-200 bg-indigo-50 px-6 py-3 text-center text-sm font-black text-indigo-600 transition hover:bg-indigo-600 hover:text-white"
               >
                 View Tutor

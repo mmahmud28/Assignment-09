@@ -27,146 +27,126 @@ const BookingTuCard = ({ booking }) => {
   }
 
   return (
-    <div className="grid gap-6 lg:grid-cols-2">
-      {booking.map((item) => {
-        const status = item.bookingStatus || "pending";
+   <div className="space-y-5">
+  {booking.map((item) => (
+    <div
+      key={item._id}
+      className="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-indigo-300 hover:shadow-2xl"
+    >
+      <div className="flex flex-col gap-6 p-6 lg:flex-row lg:items-center">
 
-        return (
-          <div
-            key={item._id}
-            className="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
-          >
-            {/* Header */}
-            <div className="relative overflow-hidden bg-gradient-to-r from-indigo-900 via-blue-900 to-cyan-700 p-6 text-white">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,.18),transparent_45%)]" />
+        {/* Tutor Photo */}
+        <div className="flex justify-center lg:justify-start">
+          <Image
+            src={item.photo}
+            alt={item.tutorName}
+            width={110}
+            height={110}
+            unoptimized
+            className="h-28 w-28 rounded-3xl border-4 border-indigo-100 object-cover shadow-lg"
+          />
+        </div>
 
-              <div className="relative flex items-center justify-between gap-4">
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.25em] text-cyan-100">
-                    Booking Token
-                  </p>
+        {/* Tutor Information */}
+        <div className="flex-1">
 
-                  <h2 className="mt-2 text-2xl font-extrabold tracking-wide text-white">
-                    {item.sessionToken}
-                  </h2>
+          <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
 
-                  <p className="mt-2 text-sm font-medium text-slate-100">
-                    {item.bookingDate} • {item.bookingTime}
-                  </p>
-                </div>
+            <div>
+              <h2 className="text-2xl font-extrabold text-slate-900">
+                {item.tutorName}
+              </h2>
 
-                <span
-                  className={`rounded-full px-4 py-2 text-xs font-bold capitalize shadow-md ${bookingStatusStyle[status]
-                    }`}
-                >
-                  {status}
-                </span>
-              </div>
+              <p className="mt-1 text-sm font-semibold text-indigo-600">
+                {item.subject} Tutor
+              </p>
             </div>
 
-            {/* Body */}
-            <div className="space-y-5 p-5">
-
-              {/* Tutor */}
-              <div className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-4">
-
-                <Image
-                  src={
-                    item?.tutor?.photo ||
-                    "https://randomuser.me/api/portraits/men/1.jpg"
-                  }
-                  alt={item?.tutor?.name || "Tutor"}
-                  width={65}
-                  height={65}
-                  className="h-16 w-16 rounded-2xl border-2 border-white object-cover shadow"
-                  unoptimized
-                />
-
-                <div className="flex-1">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-indigo-600">
-                    Tutor
-                  </p>
-
-                  <h3 className="mt-1 text-lg font-bold text-slate-900">
-                    {item?.tutor?.name}
-                  </h3>
-
-                  <p className="text-sm font-medium text-slate-600">
-                    {item?.tutor?.subject}
-                  </p>
-                </div>
-
-                <div className="rounded-xl bg-white px-4 py-3 text-right shadow-sm">
-                  <p className="text-xs font-semibold text-slate-500">
-                    Fee
-                  </p>
-
-                  <h4 className="mt-1 text-lg font-bold text-indigo-700">
-                    ৳{item?.tutor?.hourlyFee}
-                  </h4>
-                </div>
-
-              </div>
-
-              {/* Session */}
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-
-                <h3 className="mb-4 text-base font-bold text-slate-900">
-                  Session Schedule
-                </h3>
-
-                <div className="grid grid-cols-2 gap-3">
-
-                  <div className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
-                    <p className="text-xs font-semibold text-slate-500">
-                      Date
-                    </p>
-
-                    <h4 className="mt-1 text-sm font-bold text-slate-900">
-                      {item?.session?.date}
-                    </h4>
-                  </div>
-
-                  <div className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
-                    <p className="text-xs font-semibold text-slate-500">
-                      Time
-                    </p>
-
-                    <h4 className="mt-1 text-sm font-bold text-slate-900">
-                      {item?.session?.time}
-                    </h4>
-                  </div>
-
-                </div>
-              </div>
-
-              {/* Footer */}
-              <div className="flex items-center justify-between border-t border-slate-200 pt-4">
-
-                <div className="max-w-[60%]">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                    Booking ID
-                  </p>
-
-                  <p className="mt-1 truncate text-sm font-bold text-slate-900">
-                    {item._id}
-                  </p>
-                </div>
-
-                <Link
-                  href={`/my-tutors/${item._id}`}
-                  className="rounded-full bg-gradient-to-r from-indigo-600 to-cyan-600 px-6 py-3 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:scale-105 hover:from-indigo-700 hover:to-cyan-700 hover:shadow-lg"
-                >
-                  View Tutor →
-                </Link>
-
-              </div>
-
+            <div className="rounded-full bg-green-100 px-4 py-2 text-sm font-bold text-green-700">
+              {item.teachingMode}
             </div>
+
           </div>
-        );
-      })}
+
+          {/* Information */}
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+
+            <div>
+              <p className="text-xs uppercase tracking-wider text-slate-500">
+                Hourly Fee
+              </p>
+
+              <h3 className="mt-1 text-lg font-bold text-slate-900">
+                ৳ {item.hourlyFee}
+              </h3>
+            </div>
+
+            <div>
+              <p className="text-xs uppercase tracking-wider text-slate-500">
+                Available
+              </p>
+
+              <h3 className="mt-1 font-semibold text-slate-800">
+                {item.availableDays}
+              </h3>
+            </div>
+
+            <div>
+              <p className="text-xs uppercase tracking-wider text-slate-500">
+                Time
+              </p>
+
+              <h3 className="mt-1 font-semibold text-slate-800">
+                {item.availableTime}
+              </h3>
+            </div>
+
+            <div>
+              <p className="text-xs uppercase tracking-wider text-slate-500">
+                Location
+              </p>
+
+              <h3 className="mt-1 font-semibold text-slate-800">
+                📍 {item.location}
+              </h3>
+            </div>
+
+          </div>
+
+          {/* Bottom */}
+          <div className="mt-6 flex flex-col gap-4 border-t border-dashed border-slate-200 pt-5 md:flex-row md:items-center md:justify-between">
+
+            <div className="flex flex-wrap gap-3">
+
+              <span className="rounded-full bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-700">
+                🎓 {item.subject}
+              </span>
+
+              <span className="rounded-full bg-purple-50 px-4 py-2 text-sm font-semibold text-purple-700">
+                🪑 {item.totalSlot} Slots
+              </span>
+
+              <span className="rounded-full bg-orange-50 px-4 py-2 text-sm font-semibold text-orange-700">
+                📅 {item.sessionStartDate}
+              </span>
+
+            </div>
+
+            <Link
+              href={`/my-tutors/${item._id}`}
+              className="rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 px-7 py-3 text-sm font-bold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
+            >
+              View Tutor Details →
+            </Link>
+
+          </div>
+
+        </div>
+
+      </div>
     </div>
+  ))}
+</div>
   );
 };
 
