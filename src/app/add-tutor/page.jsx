@@ -1,9 +1,59 @@
+"use client";
 import React from "react";
 import Link from "next/link";
+import toast from "react-hot-toast";
 
-////////////// git add . git commit -m "Add Tutor Page with Form and Info Card" git push
+
+
 
 const AddTutorPage = () => {
+ const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+
+    const tutorData = {
+        tutorName: form.tutorName.value,
+        photo: form.photo.value,
+        subject: form.subject.value,
+        availableDays: form.availableDays.value,
+        availableTime: form.availableTime.value,
+        hourlyFee: Number(form.hourlyFee.value),
+        totalSlot: Number(form.totalSlot.value),
+        sessionStartDate: form.sessionStartDate.value,
+        institutionExperience: form.institutionExperience.value,
+        location: form.location.value,
+        teachingMode: form.teachingMode.value,
+        createdAt: new Date().toISOString(),
+    };
+
+    try {
+        const res = await fetch("http://localhost:5000/add-tutors", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(tutorData),
+        });
+
+        if (!res.ok) {
+            throw new Error("Failed to add tutor");
+        }
+
+        const result = await res.json();
+
+        if (result.insertedId) {
+            toast.success("Tutor Added Successfully");
+            form.reset();
+        } else {
+            toast.error("Failed to Add Tutor");
+        }
+
+    } catch (error) {
+        console.log(error);
+        toast.error("Something went wrong");
+    }
+};
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-slate-50 via-indigo-50/40 to-white px-4 py-12">
       {/* Background Decoration */}
@@ -91,7 +141,7 @@ const AddTutorPage = () => {
                 message design.
               </div>
 
-              <form className="space-y-7">
+              <form onSubmit={handleSubmit} className="space-y-7 text-black">
                 {/* Basic Info */}
                 <div>
                   <h3 className="mb-5 text-xl font-black text-slate-900">
@@ -106,6 +156,7 @@ const AddTutorPage = () => {
                       </label>
                       <input
                         type="text"
+                        name="tutorName"
                         placeholder="Enter tutor name"
                         className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 py-3 text-sm font-medium outline-none transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-100"
                       />
@@ -118,6 +169,7 @@ const AddTutorPage = () => {
                       </label>
                       <input
                         type="url"
+                        name="photo"
                         placeholder="imgbb/postimage photo link"
                         className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 py-3 text-sm font-medium outline-none transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-100"
                       />
@@ -127,8 +179,9 @@ const AddTutorPage = () => {
                     <div>
                       <label className="mb-2 block text-sm font-bold text-slate-700">
                         Subject / Category
+
                       </label>
-                      <select className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 py-3 text-sm font-medium outline-none transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-100">
+                      <select name="subject" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 py-3 text-sm font-medium outline-none transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-100">
                         <option>Select subject</option>
                         <option>Mathematics</option>
                         <option>Physics</option>
@@ -145,7 +198,7 @@ const AddTutorPage = () => {
                       <label className="mb-2 block text-sm font-bold text-slate-700">
                         Teaching Mode
                       </label>
-                      <select className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 py-3 text-sm font-medium outline-none transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-100">
+                      <select name="teachingMode" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 py-3 text-sm font-medium outline-none transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-100">
                         <option>Select teaching mode</option>
                         <option>Online</option>
                         <option>Offline</option>
@@ -168,6 +221,7 @@ const AddTutorPage = () => {
                         Available Days
                       </label>
                       <input
+                        name="availableDays"
                         type="text"
                         placeholder="Example: Sun - Thu"
                         className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 py-3 text-sm font-medium outline-none transition focus:border-purple-500 focus:bg-white focus:ring-4 focus:ring-purple-100"
@@ -181,6 +235,7 @@ const AddTutorPage = () => {
                       </label>
                       <input
                         type="text"
+                        name="availableTime"
                         placeholder="Example: 5:00 PM - 8:00 PM"
                         className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 py-3 text-sm font-medium outline-none transition focus:border-purple-500 focus:bg-white focus:ring-4 focus:ring-purple-100"
                       />
@@ -193,6 +248,7 @@ const AddTutorPage = () => {
                       </label>
                       <input
                         type="number"
+                        name="hourlyFee"
                         placeholder="Example: 500"
                         className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 py-3 text-sm font-medium outline-none transition focus:border-purple-500 focus:bg-white focus:ring-4 focus:ring-purple-100"
                       />
@@ -205,6 +261,7 @@ const AddTutorPage = () => {
                       </label>
                       <input
                         type="number"
+                        name="totalSlot"
                         placeholder="Example: 10"
                         className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 py-3 text-sm font-medium outline-none transition focus:border-purple-500 focus:bg-white focus:ring-4 focus:ring-purple-100"
                       />
@@ -217,6 +274,7 @@ const AddTutorPage = () => {
                       </label>
                       <input
                         type="date"
+                        name="sessionStartDate"
                         className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 py-3 text-sm font-medium outline-none transition focus:border-purple-500 focus:bg-white focus:ring-4 focus:ring-purple-100"
                       />
                     </div>
@@ -237,6 +295,7 @@ const AddTutorPage = () => {
                       </label>
                       <textarea
                         rows="4"
+                        name="institutionExperience"
                         placeholder="Example: BSc in Mathematics, 3 years teaching experience..."
                         className="w-full resize-none rounded-2xl border border-slate-200 bg-slate-50 px-5 py-3 text-sm font-medium outline-none transition focus:border-cyan-500 focus:bg-white focus:ring-4 focus:ring-cyan-100"
                       ></textarea>
@@ -249,6 +308,7 @@ const AddTutorPage = () => {
                       </label>
                       <input
                         type="text"
+                        name="location"
                         placeholder="Example: Dhanmondi, Dhaka"
                         className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 py-3 text-sm font-medium outline-none transition focus:border-cyan-500 focus:bg-white focus:ring-4 focus:ring-cyan-100"
                       />
@@ -259,7 +319,7 @@ const AddTutorPage = () => {
                 {/* Submit Button */}
                 <div className="flex flex-col gap-4 pt-2 sm:flex-row">
                   <button
-                    type="button"
+                    type="submit"
                     className="w-full rounded-2xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-8 py-4 text-sm font-black text-white shadow-lg shadow-indigo-500/30 transition hover:-translate-y-0.5 hover:shadow-xl sm:w-auto"
                   >
                     Submit Tutor

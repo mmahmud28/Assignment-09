@@ -79,6 +79,7 @@ const BookingTuCard = ({ booking }) => {
                   width={65}
                   height={65}
                   className="h-16 w-16 rounded-2xl border-2 border-white object-cover shadow"
+                  unoptimized
                 />
 
                 <div className="flex-1">

@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
 import Spinner from "../Components/Spinner";
+import Image from "next/image";
 
 const MyBookedSessionsPage = () => {
   const [booking, setBooking] = React.useState([]);
@@ -188,7 +189,11 @@ const MyBookedSessionsPage = () => {
                     <td className="px-6 py-5">
                       <div className="flex items-center gap-3">
                         <div className="grid h-11 w-11 place-items-center rounded-2xl bg-indigo-100 text-lg">
-                          👨‍🏫
+                          <Image
+// im age add to url
+
+
+/>
                         </div>
 
                         <div>

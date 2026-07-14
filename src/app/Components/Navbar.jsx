@@ -152,7 +152,9 @@ const Navbar = () => {
               </Link>
             </li>
 
-            <li>
+            {
+              session && (
+              <li>
               <Link
                 href="/add-tutor"
                 className="rounded-full px-4 font-semibold text-slate-700 hover:bg-white hover:text-primary"
@@ -160,6 +162,8 @@ const Navbar = () => {
                 Add Tutor
               </Link>
             </li>
+              )
+            }
 
             <li>
               <Link

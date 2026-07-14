@@ -9,6 +9,10 @@ const ProfileItem = ({ user }) => {
     return <div>User not found</div>;
   }
 
+  console.log("page User", user);
+   console.log(user.image);
+  
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-slate-50 via-indigo-50/50 to-white px-4 py-12">
       {/* Background Glow */}
@@ -43,12 +47,15 @@ const ProfileItem = ({ user }) => {
               <div className="relative z-10 -mt-16 flex justify-center">
                 <div className="rounded-full bg-white p-2 shadow-xl">
                   <Image
-                    src={user.photoURL || "https://i.pravatar.cc/300?img=12"}
+                    src={user.image || "https://i.pravatar.cc/300?img=12"}
                     alt={user.name || "User"}
-                    width={128}
-                    height={128}
+                    width={180}
+                    height={180}
                     className="h-32 w-32 rounded-full border-4 border-indigo-500 bg-white object-cover"
+                    unoptimized
                   />
+                 
+                  
                 </div>
               </div>
 

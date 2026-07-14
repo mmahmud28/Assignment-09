@@ -114,8 +114,9 @@ const TutorDetailsPage = async ({ params }) => {
                 <Image
                   src={tutor.photo}
                   alt={tutor.tutorName}
-                  fill
-                  className="object-cover"
+                  width={500}
+                  height={500}
+                  unoptimized
                 />
 
                 <div className="absolute left-4 top-4 z-10 rounded-full bg-green-500 px-4 py-2 text-xs font-black text-white shadow-lg">
@@ -431,7 +432,7 @@ const TutorDetailsPage = async ({ params }) => {
                 <div className="flex flex-col gap-4 pt-3 sm:flex-row">
 
                   <BookingModal
-                     token={token}
+                    token={token}
                     bookingData={bookingData}
                   />
 
