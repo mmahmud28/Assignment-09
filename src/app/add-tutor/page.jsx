@@ -31,7 +31,7 @@ const AddTutorPage = () => {
     };
 
     try {
-      const res = await fetch(`${process.env.SERVER_URL}/add-tutors`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/add-tutors`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

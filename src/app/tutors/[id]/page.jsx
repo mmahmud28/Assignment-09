@@ -38,7 +38,7 @@ const TutorDetailsPage = async ({ params }) => {
 
     // User Information
     const proRes = await fetch(
-      `${process.env.SERVER_URL}/users?email=${email}`,
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/users?email=${email}`,
       {
         cache: "no-store",
         headers: {

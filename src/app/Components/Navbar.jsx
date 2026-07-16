@@ -13,7 +13,7 @@ const Navbar = () => {
 
 
   const { data: session, isPending } = useSession();
-
+  
 
 
   const handelLogout = async () => {

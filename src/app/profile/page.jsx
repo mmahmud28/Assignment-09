@@ -16,7 +16,7 @@ const ProfilePage = () => {
       return;
     }
 
-    fetch(`${process.env.SERVER_URL}/users?email=${email}`)
+    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/users?email=${email}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch user");
