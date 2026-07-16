@@ -1,8 +1,8 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import toast from "react-hot-toast";
-import { authClient, signIn } from "../lib/auth-client";
+import { authClient, signIn, } from "../lib/auth-client";
 
 const LoginPage = () => {
 
@@ -12,7 +12,7 @@ const LoginPage = () => {
     const formData = new FormData(e.target);
     const loginData = Object.fromEntries(formData.entries());
 
-      localStorage.setItem("userEmail", loginData.email);
+    localStorage.setItem("userEmail", loginData.email);
 
 
     console.log(loginData); // এখানে email/password আছে কিনা দেখুন
@@ -32,7 +32,7 @@ const LoginPage = () => {
     const { data: tokenData } = await authClient.token()
 
 
-    console.log(tokenData);  
+    console.log(tokenData);
 
 
 
@@ -40,6 +40,13 @@ const LoginPage = () => {
 
     toast.success("Login successful!");
   };
+
+  const handelGoogleLogin = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "/",
+    })
+  }
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-[#070A1A] px-4 py-10 text-white">
@@ -155,7 +162,7 @@ const LoginPage = () => {
               </div>
 
               <button
-                type="button"
+                onClick={handelGoogleLogin}
                 className="flex w-full items-center justify-center gap-3 rounded-2xl border border-white/10 bg-white/10 px-6 py-3 text-sm font-black text-white transition hover:bg-white/15"
               >
                 <span className="grid h-7 w-7 place-items-center rounded-full bg-white text-sm font-black text-slate-900">

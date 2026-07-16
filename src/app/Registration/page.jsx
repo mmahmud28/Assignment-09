@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import React from "react";
 import toast from "react-hot-toast";
-import { signUp } from "../lib/auth-client";
+import { authClient, signUp } from "../lib/auth-client";
 import { useRouter } from "next/navigation";
 
 
@@ -56,6 +56,12 @@ const Page = () => {
     // Reg Is Completed
   };
 
+  const handelGoogleLogin = async () => {
+      await authClient.signIn.social({
+        provider: "google",
+        callbackURL: "/",
+      })
+    }
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-[#070A1A] px-4 py-10 text-white">
@@ -191,6 +197,24 @@ const Page = () => {
                   Create Account
                 </button>
               </form>
+
+              <div className="my-7 flex items-center gap-4">
+                <div className="h-px flex-1 bg-white/10" />
+                <span className="text-xs font-bold uppercase text-slate-500">
+                  Or continue with
+                </span>
+                <div className="h-px flex-1 bg-white/10" />
+              </div>
+
+              <button
+                onClick={handelGoogleLogin}
+                className="flex w-full items-center justify-center gap-3 rounded-2xl border border-white/10 bg-white/10 px-6 py-3 text-sm font-black text-white transition hover:bg-white/15"
+              >
+                <span className="grid h-7 w-7 place-items-center rounded-full bg-white text-sm font-black text-slate-900">
+                  G
+                </span>
+                Login with Google
+              </button>
 
               <p className="mt-7 text-center text-sm font-medium text-slate-400">
                 Already have an account?{" "}

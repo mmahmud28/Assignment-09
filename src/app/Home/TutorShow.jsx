@@ -2,10 +2,20 @@
 import React, { useEffect, useState } from "react";
 import TutorCard from "../Components/TutorCard";
 import Spinner from "../Components/Spinner";
+import { useSession } from "../lib/auth-client";
+import toast from "react-hot-toast";
 
 const TutorShow = () => {
   const [tutors, setTutors] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    if (session?.user?.email) {
+      localStorage.setItem("userEmail", session.user.email);
+    }
+  }, [session]);
 
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/tutors`)
