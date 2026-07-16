@@ -8,7 +8,7 @@ const BookingModal = ({ bookingData, token }) => {
 
     const handleBooking = async () => {
         try {
-            const res = await fetch("http://localhost:5000/booking_Tutor", {
+            const res = await fetch(`${process.env.SERVER_URL}/booking_Tutor`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

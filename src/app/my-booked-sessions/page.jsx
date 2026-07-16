@@ -72,7 +72,7 @@ const MyBookedSessionsPage = () => {
 
     try {
       const res = await fetch(
-        `http://localhost:5000/booking_Tutor/${id}`,
+        `${process.env.SERVER_URL}/booking_Tutor/${id}`,
         {
           method: "DELETE",
           headers: {

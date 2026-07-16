@@ -17,7 +17,7 @@ const MyTutorPage = () => {
             return;
         }
 
-        fetch(`http://localhost:5000/myAddTutor?email=${email}`)
+        fetch(`${process.env.SERVER_URL}/myAddTutor?email=${email}`)
             .then((res) => {
                 if (!res.ok) {
                     throw new Error("Failed to fetch tutors");

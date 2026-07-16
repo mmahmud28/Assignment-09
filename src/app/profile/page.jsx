@@ -16,7 +16,7 @@ const ProfilePage = () => {
       return;
     }
 
-    fetch(`http://localhost:5000/users?email=${email}`)
+    fetch(`${process.env.SERVER_URL}/users?email=${email}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch user");

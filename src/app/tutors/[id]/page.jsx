@@ -38,7 +38,7 @@ const TutorDetailsPage = async ({ params }) => {
 
     // User Information
     const proRes = await fetch(
-      `http://localhost:5000/users?email=${email}`,
+      `${process.env.SERVER_URL}/users?email=${email}`,
       {
         cache: "no-store",
         headers: {
@@ -59,7 +59,7 @@ const TutorDetailsPage = async ({ params }) => {
 
     // Tutor Information
     const tutorRes = await fetch(
-      `http://localhost:5000/tutors/${id}`,
+      `${process.env.SERVER_URL}/tutors/${id}`,
       {
         cache: "no-store",
         headers: {

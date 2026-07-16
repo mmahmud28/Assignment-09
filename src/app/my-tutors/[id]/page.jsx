@@ -19,7 +19,7 @@ const MyTutorDetails = ({ params }) => {
         const userEmail = localStorage.getItem("userEmail");
 
         fetch(
-            `http://localhost:5000/myAddTutor/${id}?email=${userEmail}`
+            `${process.env.SERVER_URL}/myAddTutor/${id}?email=${userEmail}`
         )
             .then((res) => {
             if (!res.ok) {
