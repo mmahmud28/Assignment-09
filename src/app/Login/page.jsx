@@ -32,6 +32,9 @@ const LoginPage = () => {
     const { data: tokenData } = await authClient.token()
 
 
+    if (tokenData) {toast.success("Token fetched successfully!");}
+
+
     console.log(tokenData);
 
 

@@ -4,6 +4,7 @@ import { auth } from "@/app/lib/auth";
 import { headers } from "next/headers";
 import Image from "next/image";
 import { redirect } from "next/navigation";
+import toast from "react-hot-toast";
 
 const TutorDetailsPage = async ({ params }) => {
   const { id } = await params;
@@ -70,6 +71,7 @@ const TutorDetailsPage = async ({ params }) => {
 
     if (tutorRes.status === 401) {
       redirect("/login");
+      toast.error("Unauthorized access. 401 Please log in.");
     }
 
     if (!tutorRes.ok) {
@@ -83,6 +85,7 @@ const TutorDetailsPage = async ({ params }) => {
 
     // যদি Unauthorized হয় তাহলে Login এ পাঠাবে
     redirect("/login");
+    toast.error("Unauthorized access. Please log in.");
   }
 
   const bookingData = {
