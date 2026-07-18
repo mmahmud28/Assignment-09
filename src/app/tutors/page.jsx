@@ -20,7 +20,7 @@ const Page = () => {
                 const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/tutors`);
                 const data = await res.json();
                 setTutors(data);
-                console.log(res);
+               
             } catch (error) {
                 console.error(error);
             } finally {
@@ -30,9 +30,6 @@ const Page = () => {
 
         fetchTutors();
     }, []);
-
-    
-    console.log(process.env.SERVER_URL);
     
     
 

@@ -1,5 +1,4 @@
 import BookingModal from "@/app/Components/BookingModal";
-import Spinner from "@/app/Components/Spinner";
 import { auth } from "@/app/lib/auth";
 import { headers } from "next/headers";
 import Image from "next/image";
