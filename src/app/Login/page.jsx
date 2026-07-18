@@ -15,6 +15,8 @@ const LoginPage = () => {
     localStorage.setItem("userEmail", loginData.email);
 
 
+    console.log(loginData); // এখানে email/password আছে কিনা দেখুন
+
     const { data, error } = await signIn.email({
       email: loginData.email,
       password: loginData.password,
@@ -28,10 +30,6 @@ const LoginPage = () => {
 
 
     const { data: tokenData } = await authClient.token()
-
-
-    if (tokenData) {toast.success("Token fetched successfully!");}
-
 
     toast.success("Login successful!");
   };
