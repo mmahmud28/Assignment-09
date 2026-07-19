@@ -3,6 +3,7 @@ import { auth } from "@/app/lib/auth";
 import { headers } from "next/headers";
 import Image from "next/image";
 import { redirect } from "next/navigation";
+import toast from "react-hot-toast";
 
 const TutorDetailsPage = async ({ params }) => {
   const { id } = await params;
@@ -34,6 +35,9 @@ const TutorDetailsPage = async ({ params }) => {
     }
 
     const email = session.user.email;
+
+    console.log(token, session, email);
+    
 
     // User Information
     const proRes = await fetch(
