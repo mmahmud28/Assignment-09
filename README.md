@@ -1,36 +1,216 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🎓 Tutor Hub
 
-## Getting Started
+Tutor Hub is a modern online tutoring platform where students can easily find qualified tutors, view tutor profiles, and book tutoring sessions securely. Tutors can publish their services, manage their profiles, and receive booking requests from students.
 
-First, run the development server:
+Built with **Next.js 15, React, Tailwind CSS, Node.js, Express.js, MongoDB, and Better Auth**, Tutor Hub provides a fast, secure, and user-friendly experience.
+
+---
+
+## 🚀 Live Website
+
+🔗 https://your-live-link.vercel.app
+
+---
+
+## ✨ Features
+
+### 👨‍🎓 Student Features
+
+- 🔍 Search tutors by Name, Subject, Location, and Teaching Mode
+- 📖 View detailed tutor profiles
+- 📅 Book tutoring sessions
+- 📋 View all booked sessions
+- 🔐 Secure authentication using Better Auth
+- 👤 Personal profile management
+- 📱 Fully responsive design
+
+---
+
+### 👨‍🏫 Tutor Features
+
+- ➕ Add new tutoring services
+- ✏️ Update tutor information
+- ❌ Delete tutoring services
+- 👨‍🏫 Manage personal tutor profile
+- 💰 Set hourly fee
+- 🗓️ Manage available days & time
+- 📍 Add teaching location
+- 🏫 Add institution & teaching experience
+
+---
+
+### 🔒 Authentication & Security
+
+- Better Auth Authentication
+- JWT Protected API
+- Protected Routes
+- Server-side Session Verification
+- Authorization Middleware
+- Secure Booking System
+
+---
+
+### 📚 Booking System
+
+- One-click Tutor Booking
+- Unique Booking Token
+- Booking Status
+- Booking Date & Time
+- Student Information
+- Tutor Information
+- Session Information
+- Protected Booking APIs
+
+---
+
+### 🔍 Search & Filter
+
+- Search by Tutor Name
+- Search by Subject
+- Search by Location
+- Filter by Teaching Mode
+- Fast Dynamic Searching
+
+---
+
+### 🎨 UI & UX
+
+- Modern Dashboard UI
+- Responsive Design
+- Mobile Friendly
+- Loading Spinner
+- Beautiful Cards
+- Toast Notifications
+- Smooth User Experience
+
+---
+
+## 🛠 Tech Stack
+
+### Frontend
+
+- Next.js 15
+- React
+- Tailwind CSS
+- DaisyUI
+- Hero UI
+- React Icons
+
+### Backend
+
+- Node.js
+- Express.js
+- MongoDB
+
+### Authentication
+
+- Better Auth
+- JWT
+
+### Deployment
+
+- Vercel (Frontend)
+- Render / Railway / VPS (Backend)
+
+---
+
+## 📂 Main Functionalities
+
+- User Registration
+- Login & Logout
+- Add Tutor
+- Update Tutor
+- Delete Tutor
+- View Tutor Details
+- Search Tutors
+- Book Tutor
+- View My Bookings
+- Protected Routes
+- JWT Authorization
+- Error Handling
+- Responsive UI
+
+---
+
+## 📦 Installation
+
+Clone the repository
+
+```bash
+git clone https://github.com/your-username/tutor-hub.git
+```
+
+Go to project directory
+
+```bash
+cd tutor-hub
+```
+
+Install dependencies
+
+```bash
+npm install
+```
+
+Run development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## ⚙ Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Create a `.env.local` file and add:
 
-## Learn More
+```env
+NEXT_PUBLIC_API_URL=http://localhost:5000
 
-To learn more about Next.js, take a look at the following resources:
+BETTER_AUTH_SECRET=your_secret_key
+BETTER_AUTH_URL=http://localhost:3000
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+MONGODB_URI=your_mongodb_connection_string
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 📁 Folder Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+app/
+components/
+hooks/
+lib/
+public/
+styles/
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🌟 Future Improvements
+
+- Online Payment Integration
+- Tutor Reviews & Ratings
+- Wishlist
+- Video Meeting
+- Chat System
+- Notifications
+- Admin Dashboard
+- Tutor Verification
+- Certificate Upload
+- Email Notifications
+
+---
+
+## 👨‍💻 Developed By
+
+**Md Mahmud**
+
+Apps & Web Application Developer
+
+---
+
+## 📜 License
+
+This project is licensed under the MIT License.
