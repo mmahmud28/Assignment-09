@@ -19,7 +19,7 @@ const MyTutorDetails = ({ params }) => {
         const userEmail = localStorage.getItem("userEmail");
 
         fetch(
-            `${process.env.SERVER_URL}/myAddTutor/${id}?email=${userEmail}`
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/myAddTutor/${id}?email=${userEmail}`
         )
             .then((res) => {
             if (!res.ok) {

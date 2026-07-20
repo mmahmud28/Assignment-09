@@ -57,6 +57,8 @@ const AddTutorPage = () => {
       toast.error("Something went wrong");
     }
   };
+
+  
   return (
     <section className="relative overflow-hidden bg-linear-to-b from-slate-50 via-indigo-50/40 to-white px-4 py-12">
       {/* Background Decoration */}

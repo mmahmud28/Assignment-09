@@ -3,90 +3,34 @@ import { auth } from "@/app/lib/auth";
 import { headers } from "next/headers";
 import Image from "next/image";
 import { redirect } from "next/navigation";
-import toast from "react-hot-toast";
 
 const TutorDetailsPage = async ({ params }) => {
   const { id } = await params;
 
-  let token;
-  let session;
-  let user;
-  let tutor;
+  // Session
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
-  try {
-    // Get Token
-    const tokenResult = await auth.api.getToken({
-      headers: await headers(),
-    });
-
-    token = tokenResult?.token;
-
-    if (!token) {
-      redirect("/login");
-    }
-
-    // Get Session
-    session = await auth.api.getSession({
-      headers: await headers(),
-    });
-
-    if (!session) {
-      redirect("/login");
-    }
-
-    const email = session.user.email;
-
-    console.log(token, session, email);
-    
-
-    // User Information
-    const proRes = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/users?email=${email}`,
-      {
-        cache: "no-store",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    if (proRes.status === 401) {
-      redirect("/login");
-    }
-
-    if (!proRes.ok) {
-      throw new Error("Failed to fetch user");
-    }
-
-    user = await proRes.json();
-
-    // Tutor Information
-    const tutorRes = await fetch(
-      `${process.env.SERVER_URL}/tutors/${id}`,
-      {
-        cache: "no-store",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    if (tutorRes.status === 401) {
-      redirect("/login");
-    }
-
-    if (!tutorRes.ok) {
-      throw new Error("Failed to fetch tutor");
-    }
-
-    tutor = await tutorRes.json();
-
-  } catch (error) {
-    console.error("Tutor Details Error:", error);
-
-    // যদি Unauthorized হয় তাহলে Login এ পাঠাবে
+  if (!session) {
     redirect("/login");
   }
+
+  const user = session.user;
+
+  // Tutor Data
+  const tutorRes = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/tutors/${id}`,
+    {
+      cache: "no-store",
+    }
+  );
+
+  if (!tutorRes.ok) {
+    throw new Error("Failed to fetch tutor");
+  }
+
+  const tutor = await tutorRes.json();
 
   const bookingData = {
     sessionToken: `BK-${Date.now()}`,
@@ -116,7 +60,6 @@ const TutorDetailsPage = async ({ params }) => {
       time: tutor.availableTime,
     },
   };
-
 
 
   return (
@@ -468,8 +411,7 @@ const TutorDetailsPage = async ({ params }) => {
                 {/* Buttons */}
                 <div className="flex flex-col gap-4 pt-3 sm:flex-row">
 
-                  <BookingModal
-                    token={token}
+                  <BookingModal                    
                     bookingData={bookingData}
                   />
 

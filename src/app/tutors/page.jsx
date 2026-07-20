@@ -13,6 +13,7 @@ const Page = () => {
 
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
+         
 
     useEffect(() => {
         const fetchTutors = async () => {
@@ -20,7 +21,7 @@ const Page = () => {
                 const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/tutors`);
                 const data = await res.json();
                 setTutors(data);
-               
+
             } catch (error) {
                 console.error(error);
             } finally {
@@ -30,8 +31,8 @@ const Page = () => {
 
         fetchTutors();
     }, []);
-    
-    
+
+
 
     const filteredTutors = tutors.filter((tutor) => {
         const search = searchText.toLowerCase().trim();

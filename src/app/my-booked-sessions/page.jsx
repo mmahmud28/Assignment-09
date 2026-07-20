@@ -9,25 +9,8 @@ import toast from "react-hot-toast";
 const MyBookedSessionsPage = () => {
   const [booking, setBooking] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [token, setToken] = useState("");
-
-  // Get Better Auth Token
-  useEffect(() => {
-    const getToken = async () => {
-      try {
-        const res = await fetch("/api/auth/token");
-
-        if (!res.ok) return;
-
-        const data = await res.json();
-        setToken(data.token);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    getToken();
-  }, []);
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
 
   // Get Bookings
   useEffect(() => {
@@ -38,7 +21,7 @@ const MyBookedSessionsPage = () => {
       return;
     }
 
-    fetch(`http://localhost:5000/myBookings?email=${email}`)
+    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/myBookings?email=${email}`)
       .then((res) => {
         if (!res.ok) {
           throw new Error("Failed to fetch bookings");
@@ -56,47 +39,38 @@ const MyBookedSessionsPage = () => {
       });
   }, []);
 
-  console.log("Token:", token);
-
   if (loading) {
     return <Spinner />;
   }
 
 
-  const handleCancel = async (id) => {
-    if (!confirm("Are you sure you want to cancel this booking?")) return;
-
-
-    console.log(token);
-
-
+  const handleCancel = async () => {
     try {
+      const email = localStorage.getItem("userEmail");
+
       const res = await fetch(
-        `${process.env.SERVER_URL}/booking_Tutor/${id}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/booking_Tutor/${selectedId}?email=${email}`,
         {
           method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
         }
       );
 
       const result = await res.json();
 
       if (res.ok) {
-        setBooking((prev) =>
-          prev.filter((item) => item._id !== id)
-        );
-
+        setBooking((prev) => prev.filter((item) => item._id !== selectedId));
         toast.success("Booking cancelled successfully");
       } else {
-        toast.error(result.message);
+        toast.error(result.message || "Failed to cancel booking");
       }
     } catch (err) {
+      console.error(err);
       toast.error("Something went wrong");
+    } finally {
+      setIsOpen(false);
+      setSelectedId(null);
     }
   };
-
 
 
   const studentName = booking.length > 0 ? booking[0].student.name : "";
@@ -291,10 +265,13 @@ const MyBookedSessionsPage = () => {
 
                     <td className="px-6 py-5 text-right">
                       <button
-                        onClick={() => handleCancel(item._id)}
-                        className="rounded-full bg-red-50 px-5 py-2 text-sm font-black text-red-600 transition hover:bg-red-500 hover:text-white"
+                        onClick={() => {
+                          setSelectedId(item._id);
+                          setIsOpen(true);
+                        }}
+                        className="btn btn-error btn-sm"
                       >
-                        Cancel
+                        Cancel Booking
                       </button>
                     </td>
                   </tr>
@@ -305,12 +282,45 @@ const MyBookedSessionsPage = () => {
         </div>
 
 
+        {isOpen && (
+          <dialog className="modal modal-open">
+            <div className="modal-box">
+              <h3 className="text-xl font-bold text-error">
+                Cancel Booking
+              </h3>
 
+              <p className="py-4">
+                Are you sure you want to cancel this booking?
+              </p>
+
+              <div className="modal-action">
+                <button
+                  className="btn"
+                  onClick={() => {
+                    setIsOpen(false);
+                    setSelectedId(null);
+                  }}
+                >
+                  No
+                </button>
+
+                <button
+                  className="btn btn-error"
+                  onClick={handleCancel}
+                >
+                  Yes, Cancel
+                </button>
+              </div>
+            </div>
+          </dialog>
+        )}
 
 
 
       </div>
     </section>
+
+
 
   );
 };
